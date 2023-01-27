@@ -7,9 +7,9 @@ import (
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	connectcmd "github.com/mjudeikis/portal/pkg/cliplugins/connect/cmd"
-	connectioncmd "github.com/mjudeikis/portal/pkg/cliplugins/connection/cmd"
-	logincmd "github.com/mjudeikis/portal/pkg/cliplugins/login/cmd"
+	connectcmd "github.com/faroshq/faros-ingress/pkg/cliplugins/connect/cmd"
+	connectioncmd "github.com/faroshq/faros-ingress/pkg/cliplugins/connection/cmd"
+	logincmd "github.com/faroshq/faros-ingress/pkg/cliplugins/login/cmd"
 )
 
 // New returns a cobra.Command for faros actions.

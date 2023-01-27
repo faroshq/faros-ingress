@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/url"
 
-	utilerror "github.com/mjudeikis/portal/pkg/util/error"
+	utilerror "github.com/faroshq/faros-ingress/pkg/util/error"
 )
 
 const (

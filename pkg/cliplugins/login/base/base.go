@@ -8,7 +8,7 @@ import (
 	"github.com/kcp-dev/kcp/pkg/cliplugins/base"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	utilprint "github.com/mjudeikis/portal/pkg/util/print"
+	utilprint "github.com/faroshq/faros-ingress/pkg/util/print"
 )
 
 // Options contains options common to most CLI plugins, including settings for connecting to faros

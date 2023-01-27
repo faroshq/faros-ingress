@@ -8,10 +8,10 @@ import (
 
 	"k8s.io/klog/v2"
 
-	"github.com/mjudeikis/portal/pkg/config"
-	devproxyclient "github.com/mjudeikis/portal/pkg/dev/client"
-	"github.com/mjudeikis/portal/pkg/servers/api"
-	"github.com/mjudeikis/portal/pkg/servers/gateway"
+	"github.com/faroshq/faros-ingress/pkg/config"
+	devproxyclient "github.com/faroshq/faros-ingress/pkg/dev/client"
+	"github.com/faroshq/faros-ingress/pkg/servers/api"
+	"github.com/faroshq/faros-ingress/pkg/servers/gateway"
 )
 
 func main() {

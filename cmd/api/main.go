@@ -7,8 +7,8 @@ import (
 
 	"k8s.io/klog/v2"
 
-	"github.com/mjudeikis/portal/pkg/config"
-	"github.com/mjudeikis/portal/pkg/servers/api"
+	"github.com/faroshq/faros-ingress/pkg/config"
+	"github.com/faroshq/faros-ingress/pkg/servers/api"
 )
 
 func main() {

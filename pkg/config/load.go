@@ -16,8 +16,8 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/klog"
 
-	utilfile "github.com/mjudeikis/portal/pkg/util/file"
-	utiltls "github.com/mjudeikis/portal/pkg/util/tls"
+	utilfile "github.com/faroshq/faros-ingress/pkg/util/file"
+	utiltls "github.com/faroshq/faros-ingress/pkg/util/tls"
 )
 
 // LoadAPI loads the configuration from the environment and flags

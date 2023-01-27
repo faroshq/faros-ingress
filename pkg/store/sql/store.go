@@ -10,8 +10,8 @@ import (
 	"gorm.io/gorm"
 	klog "k8s.io/klog/v2"
 
-	"github.com/mjudeikis/portal/pkg/config"
-	"github.com/mjudeikis/portal/pkg/store"
+	"github.com/faroshq/faros-ingress/pkg/config"
+	"github.com/faroshq/faros-ingress/pkg/store"
 )
 
 var _ store.Store = &Store{}

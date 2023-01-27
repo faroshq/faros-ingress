@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/mjudeikis/portal/pkg/models"
+	"github.com/faroshq/faros-ingress/pkg/models"
 )
 
 const LoginResponseHTML = `

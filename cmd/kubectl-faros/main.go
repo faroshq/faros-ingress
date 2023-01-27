@@ -9,7 +9,7 @@ import (
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/klog/v2"
 
-	"github.com/mjudeikis/portal/pkg/cliplugins/faros/cmd"
+	"github.com/faroshq/faros-ingress/pkg/cliplugins/faros/cmd"
 )
 
 func main() {

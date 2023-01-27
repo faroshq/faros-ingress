@@ -7,9 +7,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mjudeikis/portal/pkg/models"
-	"github.com/mjudeikis/portal/pkg/store"
-	utilpassword "github.com/mjudeikis/portal/pkg/util/password"
+	"github.com/faroshq/faros-ingress/pkg/models"
+	"github.com/faroshq/faros-ingress/pkg/store"
+	utilpassword "github.com/faroshq/faros-ingress/pkg/util/password"
 	"k8s.io/klog/v2"
 )
 

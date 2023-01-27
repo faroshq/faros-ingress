@@ -7,8 +7,8 @@ import (
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 
-	"github.com/mjudeikis/portal/pkg/models"
-	"github.com/mjudeikis/portal/pkg/store"
+	"github.com/faroshq/faros-ingress/pkg/models"
+	"github.com/faroshq/faros-ingress/pkg/store"
 )
 
 // GetConnection gets remote cluster based on remote cluster ID

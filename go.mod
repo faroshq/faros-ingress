@@ -1,4 +1,4 @@
-module github.com/mjudeikis/portal
+module github.com/faroshq/faros-ingress
 
 go 1.19
 
@@ -8,7 +8,6 @@ require (
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/djherbis/buffer v1.2.0
 	github.com/djherbis/nio v2.0.3+incompatible
-	github.com/docker/docker v20.10.23+incompatible
 	github.com/go-acme/lego/v4 v4.9.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/uuid v1.3.0

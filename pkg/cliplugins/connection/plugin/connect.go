@@ -9,12 +9,12 @@ import (
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	"github.com/mjudeikis/portal/pkg/api"
-	"github.com/mjudeikis/portal/pkg/client"
-	"github.com/mjudeikis/portal/pkg/cliplugins/base"
-	"github.com/mjudeikis/portal/pkg/config"
-	"github.com/mjudeikis/portal/pkg/connector"
-	utilstrings "github.com/mjudeikis/portal/pkg/util/strings"
+	"github.com/faroshq/faros-ingress/pkg/api"
+	"github.com/faroshq/faros-ingress/pkg/client"
+	"github.com/faroshq/faros-ingress/pkg/cliplugins/base"
+	"github.com/faroshq/faros-ingress/pkg/config"
+	"github.com/faroshq/faros-ingress/pkg/connector"
+	utilstrings "github.com/faroshq/faros-ingress/pkg/util/strings"
 )
 
 // ConnectOptions contains options for configuring a Agent and its corresponding process.

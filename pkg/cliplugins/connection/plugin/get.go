@@ -9,9 +9,9 @@ import (
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	"github.com/mjudeikis/portal/pkg/client"
-	"github.com/mjudeikis/portal/pkg/cliplugins/base"
-	utilprint "github.com/mjudeikis/portal/pkg/util/print"
+	"github.com/faroshq/faros-ingress/pkg/client"
+	"github.com/faroshq/faros-ingress/pkg/cliplugins/base"
+	utilprint "github.com/faroshq/faros-ingress/pkg/util/print"
 )
 
 // GetOptions contains options for configuring a Agent and its corresponding process.

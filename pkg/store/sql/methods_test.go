@@ -7,8 +7,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/mjudeikis/portal/pkg/models"
-	databasetest "github.com/mjudeikis/portal/test/util/database"
+	"github.com/faroshq/faros-ingress/pkg/models"
+	databasetest "github.com/faroshq/faros-ingress/test/util/database"
 )
 
 // TestCascade tests if records deletes cascades

@@ -11,8 +11,8 @@ import (
 	"gorm.io/gorm"
 	klog "k8s.io/klog/v2"
 
-	"github.com/mjudeikis/portal/pkg/config"
-	utilsgorm "github.com/mjudeikis/portal/pkg/util/gorm"
+	"github.com/faroshq/faros-ingress/pkg/config"
+	utilsgorm "github.com/faroshq/faros-ingress/pkg/util/gorm"
 )
 
 type SQL struct{}

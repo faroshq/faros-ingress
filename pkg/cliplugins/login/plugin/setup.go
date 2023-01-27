@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mjudeikis/portal/pkg/cliplugins/base"
-	"github.com/mjudeikis/portal/pkg/models"
+	"github.com/faroshq/faros-ingress/pkg/cliplugins/base"
+	"github.com/faroshq/faros-ingress/pkg/models"
 	"github.com/skratchdot/open-golang/open"
 	"github.com/spf13/cobra"
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"

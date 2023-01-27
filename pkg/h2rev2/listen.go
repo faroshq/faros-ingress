@@ -17,7 +17,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mjudeikis/portal/pkg/api"
+	"github.com/faroshq/faros-ingress/pkg/api"
 	"golang.org/x/net/http2"
 	"k8s.io/klog/v2"
 )

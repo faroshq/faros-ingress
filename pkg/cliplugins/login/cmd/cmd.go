@@ -4,7 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	"github.com/mjudeikis/portal/pkg/cliplugins/login/plugin"
+	"github.com/faroshq/faros-ingress/pkg/cliplugins/login/plugin"
 )
 
 // New provides a cobra command for login

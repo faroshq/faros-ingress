@@ -22,11 +22,11 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 
-	"github.com/mjudeikis/portal/pkg/api"
-	"github.com/mjudeikis/portal/pkg/config"
-	"github.com/mjudeikis/portal/pkg/models"
-	"github.com/mjudeikis/portal/pkg/store"
-	utiltls "github.com/mjudeikis/portal/pkg/util/tls"
+	"github.com/faroshq/faros-ingress/pkg/api"
+	"github.com/faroshq/faros-ingress/pkg/config"
+	"github.com/faroshq/faros-ingress/pkg/models"
+	"github.com/faroshq/faros-ingress/pkg/store"
+	utiltls "github.com/faroshq/faros-ingress/pkg/util/tls"
 )
 
 // Authenticator authenticator is used to authenticate and handle all authentication related tasks

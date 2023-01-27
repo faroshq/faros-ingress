@@ -9,10 +9,10 @@ import (
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	"github.com/mjudeikis/portal/pkg/client"
-	"github.com/mjudeikis/portal/pkg/cliplugins/base"
-	utilprint "github.com/mjudeikis/portal/pkg/util/print"
-	utiltime "github.com/mjudeikis/portal/pkg/util/time"
+	"github.com/faroshq/faros-ingress/pkg/client"
+	"github.com/faroshq/faros-ingress/pkg/cliplugins/base"
+	utilprint "github.com/faroshq/faros-ingress/pkg/util/print"
+	utiltime "github.com/faroshq/faros-ingress/pkg/util/time"
 )
 
 // ListOptions contains options for configuring a Agent and its corresponding process.

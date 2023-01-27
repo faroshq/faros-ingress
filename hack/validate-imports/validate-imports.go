@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-const local = "github.com/mjudeikis/portal"
+const local = "github.com/faroshq/faros-ingress"
 
 type importSpecs []*ast.ImportSpec
 

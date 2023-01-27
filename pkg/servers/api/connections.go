@@ -10,11 +10,11 @@ import (
 	"github.com/gorilla/mux"
 	"k8s.io/klog/v2"
 
-	"github.com/mjudeikis/portal/pkg/api"
-	"github.com/mjudeikis/portal/pkg/models"
-	utilhash "github.com/mjudeikis/portal/pkg/util/hash"
-	utilhttp "github.com/mjudeikis/portal/pkg/util/http"
-	utilpassword "github.com/mjudeikis/portal/pkg/util/password"
+	"github.com/faroshq/faros-ingress/pkg/api"
+	"github.com/faroshq/faros-ingress/pkg/models"
+	utilhash "github.com/faroshq/faros-ingress/pkg/util/hash"
+	utilhttp "github.com/faroshq/faros-ingress/pkg/util/http"
+	utilpassword "github.com/faroshq/faros-ingress/pkg/util/password"
 )
 
 func (s *Service) getConnection(w http.ResponseWriter, r *http.Request) {

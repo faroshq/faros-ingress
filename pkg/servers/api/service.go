@@ -16,12 +16,12 @@ import (
 	"go.uber.org/zap"
 	"k8s.io/klog/v2"
 
-	"github.com/mjudeikis/portal/pkg/config"
-	"github.com/mjudeikis/portal/pkg/recover"
-	"github.com/mjudeikis/portal/pkg/servers/api/auth"
-	"github.com/mjudeikis/portal/pkg/store"
-	storesql "github.com/mjudeikis/portal/pkg/store/sql"
-	utilhttp "github.com/mjudeikis/portal/pkg/util/http"
+	"github.com/faroshq/faros-ingress/pkg/config"
+	"github.com/faroshq/faros-ingress/pkg/recover"
+	"github.com/faroshq/faros-ingress/pkg/servers/api/auth"
+	"github.com/faroshq/faros-ingress/pkg/store"
+	storesql "github.com/faroshq/faros-ingress/pkg/store/sql"
+	utilhttp "github.com/faroshq/faros-ingress/pkg/util/http"
 )
 
 var _ Interface = &Service{}

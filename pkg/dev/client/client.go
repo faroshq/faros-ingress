@@ -15,8 +15,8 @@ import (
 	"k8s.io/klog/v2"
 	"k8s.io/utils/clock"
 
-	"github.com/mjudeikis/portal/pkg/h2rev2"
-	utilhttp "github.com/mjudeikis/portal/pkg/util/http"
+	"github.com/faroshq/faros-ingress/pkg/h2rev2"
+	utilhttp "github.com/faroshq/faros-ingress/pkg/util/http"
 )
 
 type Client struct {

@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	"github.com/mjudeikis/portal/pkg/cliplugins/connection/plugin"
+	"github.com/faroshq/faros-ingress/pkg/cliplugins/connection/plugin"
 )
 
 var (

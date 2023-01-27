@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/mjudeikis/portal/pkg/api"
-	"github.com/mjudeikis/portal/pkg/models"
-	"github.com/mjudeikis/portal/pkg/util/responsewriter"
+	"github.com/faroshq/faros-ingress/pkg/api"
+	"github.com/faroshq/faros-ingress/pkg/models"
+	"github.com/faroshq/faros-ingress/pkg/util/responsewriter"
 	"k8s.io/klog/v2"
 )
 

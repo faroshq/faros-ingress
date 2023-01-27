@@ -5,7 +5,7 @@
 api:
   replicaCount: 1
   image:
-    repository: ghcr.io/mjudeikis/portal/reverse-proxy
+    repository: ghcr.io/faroshq/faros-ingress/reverse-proxy
     pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"
@@ -13,7 +13,7 @@ api:
 gateway:
   replicaCount: 1
   image:
-    repository: ghcr.io/mjudeikis/portal/reverse-proxy
+    repository: ghcr.io/faroshq/faros-ingress/reverse-proxy
     pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"

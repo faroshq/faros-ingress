@@ -7,7 +7,7 @@ import (
 	"github.com/google/uuid"
 	"k8s.io/klog/v2"
 
-	utilerror "github.com/mjudeikis/portal/pkg/util/error"
+	utilerror "github.com/faroshq/faros-ingress/pkg/util/error"
 )
 
 // TODO: Set correlation ID in request context and use it in all messages.

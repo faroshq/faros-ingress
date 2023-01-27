@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/faroshq/faros-ingress/pkg/models"
 	"github.com/google/uuid"
-	"github.com/mjudeikis/portal/pkg/models"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	klog "k8s.io/klog/v2"

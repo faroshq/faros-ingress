@@ -13,16 +13,16 @@ import (
 	"k8s.io/utils/clock"
 
 	"github.com/caddyserver/certmagic"
+	"github.com/faroshq/faros-ingress/pkg/config"
+	"github.com/faroshq/faros-ingress/pkg/h2rev2"
+	"github.com/faroshq/faros-ingress/pkg/recover"
+	"github.com/faroshq/faros-ingress/pkg/store"
+	storesql "github.com/faroshq/faros-ingress/pkg/store/sql"
+	"github.com/faroshq/faros-ingress/pkg/util/clientcache"
+	utilhttp "github.com/faroshq/faros-ingress/pkg/util/http"
+	"github.com/faroshq/faros-ingress/pkg/util/roundtripper"
 	"github.com/go-acme/lego/v4/challenge/tlsalpn01"
 	"github.com/libdns/cloudflare"
-	"github.com/mjudeikis/portal/pkg/config"
-	"github.com/mjudeikis/portal/pkg/h2rev2"
-	"github.com/mjudeikis/portal/pkg/recover"
-	"github.com/mjudeikis/portal/pkg/store"
-	storesql "github.com/mjudeikis/portal/pkg/store/sql"
-	"github.com/mjudeikis/portal/pkg/util/clientcache"
-	utilhttp "github.com/mjudeikis/portal/pkg/util/http"
-	"github.com/mjudeikis/portal/pkg/util/roundtripper"
 )
 
 var _ Interface = &Service{}

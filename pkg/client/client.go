@@ -9,9 +9,9 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/mjudeikis/portal/pkg/api"
+	"github.com/faroshq/faros-ingress/pkg/api"
 
-	httputil "github.com/mjudeikis/portal/pkg/util/http"
+	httputil "github.com/faroshq/faros-ingress/pkg/util/http"
 )
 
 var (

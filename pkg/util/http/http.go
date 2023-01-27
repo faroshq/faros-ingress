@@ -11,7 +11,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/mjudeikis/portal/pkg/util/version"
+	"github.com/faroshq/faros-ingress/pkg/util/version"
 )
 
 var (

@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/mjudeikis/portal/pkg/models"
+	"github.com/faroshq/faros-ingress/pkg/models"
 )
 
 type Store interface {

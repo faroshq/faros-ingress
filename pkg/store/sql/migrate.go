@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mjudeikis/portal/pkg/config"
-	"github.com/mjudeikis/portal/pkg/models"
+	"github.com/faroshq/faros-ingress/pkg/config"
+	"github.com/faroshq/faros-ingress/pkg/models"
 	"gorm.io/gorm"
 	klog "k8s.io/klog/v2"
 )

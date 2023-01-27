@@ -3,8 +3,8 @@ package api
 import (
 	"net/http"
 
-	"github.com/mjudeikis/portal/pkg/models"
-	utilhttp "github.com/mjudeikis/portal/pkg/util/http"
+	"github.com/faroshq/faros-ingress/pkg/models"
+	utilhttp "github.com/faroshq/faros-ingress/pkg/util/http"
 )
 
 func (s *Service) authenticate(w http.ResponseWriter, r *http.Request) (bool, *models.User, error) {

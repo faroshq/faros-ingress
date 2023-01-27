@@ -12,8 +12,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mjudeikis/portal/pkg/models"
-	"github.com/mjudeikis/portal/pkg/store"
+	"github.com/faroshq/faros-ingress/pkg/models"
+	"github.com/faroshq/faros-ingress/pkg/store"
 	"k8s.io/klog/v2"
 )
 

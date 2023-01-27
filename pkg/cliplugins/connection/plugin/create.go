@@ -9,9 +9,9 @@ import (
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	"github.com/mjudeikis/portal/pkg/api"
-	"github.com/mjudeikis/portal/pkg/client"
-	"github.com/mjudeikis/portal/pkg/cliplugins/base"
+	"github.com/faroshq/faros-ingress/pkg/api"
+	"github.com/faroshq/faros-ingress/pkg/client"
+	"github.com/faroshq/faros-ingress/pkg/cliplugins/base"
 )
 
 // CreateOptions contains options for configuring a connection

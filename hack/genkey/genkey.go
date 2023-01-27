@@ -10,7 +10,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	utiltls "github.com/mjudeikis/portal/pkg/util/tls"
+	utiltls "github.com/faroshq/faros-ingress/pkg/util/tls"
 )
 
 var (

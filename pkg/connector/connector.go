@@ -16,11 +16,11 @@ import (
 	"k8s.io/klog/v2"
 	"k8s.io/utils/clock"
 
-	"github.com/mjudeikis/portal/pkg/api"
-	"github.com/mjudeikis/portal/pkg/config"
-	"github.com/mjudeikis/portal/pkg/connector/client"
-	"github.com/mjudeikis/portal/pkg/h2rev2"
-	utilhttp "github.com/mjudeikis/portal/pkg/util/http"
+	"github.com/faroshq/faros-ingress/pkg/api"
+	"github.com/faroshq/faros-ingress/pkg/config"
+	"github.com/faroshq/faros-ingress/pkg/connector/client"
+	"github.com/faroshq/faros-ingress/pkg/h2rev2"
+	utilhttp "github.com/faroshq/faros-ingress/pkg/util/http"
 )
 
 const (

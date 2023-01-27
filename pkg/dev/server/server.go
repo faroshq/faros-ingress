@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mjudeikis/portal/pkg/dev/revdial"
+	"github.com/faroshq/faros-ingress/pkg/dev/revdial"
 
 	"github.com/pkg/errors"
 	"k8s.io/klog"

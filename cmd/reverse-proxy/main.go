@@ -5,8 +5,8 @@ import (
 	"flag"
 	"strings"
 
-	devproxyclient "github.com/mjudeikis/portal/pkg/dev/client"
-	devproxyserver "github.com/mjudeikis/portal/pkg/dev/server"
+	devproxyclient "github.com/faroshq/faros-ingress/pkg/dev/client"
+	devproxyserver "github.com/faroshq/faros-ingress/pkg/dev/server"
 	"k8s.io/klog"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 )

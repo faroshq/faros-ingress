@@ -6,9 +6,9 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/mjudeikis/portal/pkg/api"
-	"github.com/mjudeikis/portal/pkg/models"
-	utilhttp "github.com/mjudeikis/portal/pkg/util/http"
+	"github.com/faroshq/faros-ingress/pkg/api"
+	"github.com/faroshq/faros-ingress/pkg/models"
+	utilhttp "github.com/faroshq/faros-ingress/pkg/util/http"
 )
 
 func (s *Service) getConnectionGateway(w http.ResponseWriter, r *http.Request) {

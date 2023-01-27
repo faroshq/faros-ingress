@@ -15,7 +15,7 @@ import (
 	clientcmdv1 "k8s.io/client-go/tools/clientcmd/api/v1"
 	"sigs.k8s.io/yaml"
 
-	utilfile "github.com/mjudeikis/portal/pkg/util/file"
+	utilfile "github.com/faroshq/faros-ingress/pkg/util/file"
 )
 
 func GetRestConfigFromURL(url string) (*rest.Config, error) {

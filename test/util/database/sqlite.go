@@ -5,9 +5,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/mjudeikis/portal/pkg/config"
-	"github.com/mjudeikis/portal/pkg/store"
-	storesql "github.com/mjudeikis/portal/pkg/store/sql"
+	"github.com/faroshq/faros-ingress/pkg/config"
+	"github.com/faroshq/faros-ingress/pkg/store"
+	storesql "github.com/faroshq/faros-ingress/pkg/store/sql"
 	"k8s.io/klog/v2"
 )
 
