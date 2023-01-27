@@ -35,3 +35,23 @@ jobs:
           binary_name: "kubectl-faros"
           ldflags: "-s -w"
           extra_files: README.md
+  image:
+    name: Release Images
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set a release variable
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+          check-latest: true
+      - uses: imjasonh/setup-ko@v0.6
+        env:
+          KO_DOCKER_REPO: ghcr.io/${{ github.repository }}
+      - env:
+          auth_token: ${{ secrets.auth_token }}
+        run: |
+          echo "${{ github.token }}" | ko login ghcr.io --username "${{ github.actor }}" --password-stdin
+          ko build -B --platform=all -t ${{ env.RELEASE_VERSION }} -t ${{ github.sha }} ./cmd/*
+
