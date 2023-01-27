@@ -42,7 +42,7 @@ spec:
           - name: FAROS_OIDC_CA_SECRET_NAME
             value: dex-tls
           - name: FAROS_OIDC_ISSUER_URL
-            value: https://dex.faros.sh
+            value: {{ .Values.oidc.issuer }}
           - name: FAROS_API_AUTO_DNS_DOMAIN
             value: api.faros.sh
           - name: FAROS_API_AUTO_CERT_LE_EMAIL
@@ -56,7 +56,7 @@ spec:
           - name: FAROS_API_EXTERNAL_URL
             value: https://api.faros.sh
           - name: FAROS_OIDC_CLIENT_SECRET
-            value: "ZXhhbXBsZS1hcHAtc2VjcmV0"
+            value: {{ .Values.oidc.clientSecret | quote }}
       volumes:
       - name: faros-storage
         persistentVolumeClaim:
