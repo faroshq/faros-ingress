@@ -1,0 +1,37 @@
+name: Release faros CLI binaries
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  releases-matrix:
+    name: Release Go Binary
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # build and publish in parallel: linux/amd64
+        goos: [linux]
+        goarch: [amd64, arm64]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: wangyoucao577/go-release-action@v1.35
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
+          goversion: "https://dl.google.com/go/go1.19.5.linux-amd64.tar.gz"
+          project_path: "./cmd/kubectl-faros"
+          binary_name: "faros"
+          ldflags: "-s -w"
+          extra_files: README.md
+      - uses: wangyoucao577/go-release-action@v1.35
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
+          goversion: "https://dl.google.com/go/go1.19.5.linux-amd64.tar.gz"
+          project_path: "./cmd/kubectl-faros"
+          binary_name: "kubectl-faros"
+          ldflags: "-s -w"
+          extra_files: README.md

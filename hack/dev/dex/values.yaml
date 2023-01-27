@@ -1,0 +1,68 @@
+config:
+  issuer: https://dex.dev.faros.sh
+  storage:
+    type: kubernetes
+    config:
+      inCluster: true
+  web:
+    http: 0.0.0.0:5556
+    https: 0.0.0.0:5554
+    tlsCert: /etc/dex/tls/tls.crt
+    tlsKey: /etc/dex/tls/tls.key
+  connectors:
+  - type: github
+    id: github
+    name: GitHub
+    config:
+      clientID: $GITHUB_CLIENT_ID
+      clientSecret: $GITHUB_CLIENT_SECRET
+      redirectURI: https://dex.dev.faros.sh/callback
+      org: faroshq
+  oauth2:
+    skipApprovalScreen: true
+
+  staticClients:
+  - id: faros
+    redirectURIs:
+    - http://127.0.0.1:5555/callback
+    - http://localhost:8000
+    - https://localhost:6443/oidc/callback
+    - https://faros.dev.faros.sh/api/v1alpha1/oidc/callback
+    - https://api.faros.sh/api/v1alpha1/oidc/callback
+    name: 'Faros App'
+    secret: ZXhhbXBsZS1hcHAtc2VjcmV0
+
+  enablePasswordDB: true
+  staticPasswords:
+  - email: "admin@faros.sh"
+    # bcrypt hash of the string "password": $(echo password | htpasswd -BinC 10 admin | cut -d: -f2)
+    hash: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"
+    username: "admin"
+    userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
+certmanager:
+  enabled: true
+  selfSigned: true
+  certificates:
+    privateKeys:
+      algorithm: RSA
+      size: 2048
+    subject: {}
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  tls:
+    - hosts:
+      - dex.dev.faros.sh
+      secretName: dex-tls
+  hosts:
+    - host: dex.dev.faros.sh
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+service:
+  ports:
+    https:
+      port: 443
+https:
+  enabled: true

@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+  labels:
+    {{- include "faros-dev.labels" . | nindent 4 }}
+  name: faros
+  namespace: faros
+spec:
+  rules:
+  - host: faros.dev.faros.sh
+    http:
+      paths:
+      - backend:
+          service:
+            name: faros-api
+            port:
+              number: 8443
+        path: /
+        pathType: Prefix
+  - host: gateway-eu.dev.faros.sh
+    http:
+      paths:
+      - backend:
+          service:
+            name: faros-gateway
+            port:
+              number: 8444
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - faros.dev.faros.sh
+    - gateway-eu.dev.faros.sh
+    secretName: faros-server

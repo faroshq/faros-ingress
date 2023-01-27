@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: faros-gateway
+  labels:
+    app.kubernetes.io/name: faros-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: faros-gateway
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: faros-gateway
+    spec:
+      serviceAccountName: faros-gateway
+      containers:
+        - name: gateway
+          image: "{{ .Values.gateway.image.repository }}:{{ .Values.gateway.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8444
+              protocol: TCP
+          args:
+          - -serverAddress=:8444
+          - -certFile=/etc/faros/tls/server/tls.crt
+          - -keyFile=/etc/faros/tls/server/tls.key
+          volumeMounts:
+          - name: faros-server
+            mountPath: /etc/faros/tls/server
+      volumes:
+      - name: faros-server
+        secret:
+          secretName: faros-server

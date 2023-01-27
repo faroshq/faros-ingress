@@ -1,0 +1,24 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: faros-server
+spec:
+  secretName: faros-server
+  duration: 8760h0m0s # 365d
+  renewBefore: 360h0m0s # 15d
+  {{- with .Values.certificates.subject }}
+  subject:
+    {{- toYaml . | nindent 4 }}
+  {{- end}}
+  privateKey:
+    {{- toYaml .Values.certificates.privateKeys | nindent 4 }}
+  usages:
+    - server auth
+  dnsNames:
+    - faros
+    - localhost
+    - faros.dev.faros.sh
+    - gateway-eu.dev.faros.sh
+  issuerRef:
+    name: faros-pki-ca

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql-initdb-config
+data:
+  init.sql: |
+    SELECT 'CREATE DATABASE dex'
+    WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'dex')\gexec
+    SELECT 'CREATE DATABASE faros'
+    WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'faros')\gexec

@@ -1,0 +1,32 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: faros-pki-bootstrap
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: faros-pki-ca
+spec:
+  isCA: true
+  commonName: faros-pki-ca
+  secretName: faros-pki-ca
+  duration: 8760h0m0s # 365d
+  renewBefore: 360h0m0s # 15d
+  privateKey:
+    {{- toYaml .Values.certificates.privateKeys | nindent 4 }}
+  issuerRef:
+    name: faros-pki-bootstrap
+    kind: Issuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: faros-pki-ca
+spec:
+  ca:
+    secretName: faros-pki-ca

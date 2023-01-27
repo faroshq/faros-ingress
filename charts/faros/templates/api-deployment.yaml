@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: faros-api
+  labels:
+    app.kubernetes.io/name: faros-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: faros-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: faros-api
+    spec:
+      serviceAccountName: faros-api
+      securityContext:
+          fsGroup: 1001
+          runAsUser: 1001
+          runAsGroup: 1001
+      containers:
+        - name: api
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: Always
+          ports:
+            - name: https
+              containerPort: 8443
+              protocol: TCP
+          volumeMounts:
+          - name: faros-storage
+            mountPath: /faros
+          env:
+          - name: FAROS_DATABASE_TYPE
+            value: postgres
+          - name: FAROS_DATABASE_HOST
+            value: postgres
+          - name: FAROS_DATABASE_PASSWORD
+            value: {{ .Values.database.password }}
+          - name: FAROS_DATABASE_USERNAME
+            value: {{ .Values.database.user }}
+          - name: FAROS_OIDC_CA_SECRET_NAME
+            value: dex-tls
+          - name: FAROS_OIDC_ISSUER_URL
+            value: https://dex.faros.sh
+          - name: FAROS_API_AUTO_DNS_DOMAIN
+            value: api.faros.sh
+          - name: FAROS_API_AUTO_CERT_LE_EMAIL
+            value: {{ .Values.cloudflare.email }}
+          - name: FAROS_API_AUTO_CERT_CLOUDFLARE_KEY
+            value: {{ .Values.cloudflare.key }}
+          - name: FAROS_API_DEFAULT_GATEWAY
+            value: https://gateway.faros.sh
+          - name: FAROS_API_AUTO_CERT_USE_STAGING
+            value: {{ .Values.certificates.useStaging | quote }}
+          - name: FAROS_API_EXTERNAL_URL
+            value: https://api.faros.sh
+          - name: FAROS_OIDC_CLIENT_SECRET
+            value: "ZXhhbXBsZS1hcHAtc2VjcmV0"
+      volumes:
+      - name: faros-storage
+        persistentVolumeClaim:
+          claimName: faros-api-storage

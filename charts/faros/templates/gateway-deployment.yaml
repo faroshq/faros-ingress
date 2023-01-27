@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: faros-gateway
+  labels:
+    app.kubernetes.io/name: faros-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: faros-gateway
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: faros-gateway
+    spec:
+      serviceAccountName: faros-gateway
+      securityContext:
+          fsGroup: 1001
+          runAsUser: 1001
+          runAsGroup: 1001
+      containers:
+        - name: gateway
+          image: "{{ .Values.gateway.image.repository }}:{{ .Values.gateway.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: Always
+          ports:
+            - name: https
+              containerPort: 8443
+              protocol: TCP
+          volumeMounts:
+          - name: faros-storage
+            mountPath: /faros
+          env:
+          - name: FAROS_DATABASE_TYPE
+            value: postgres
+          - name: FAROS_DATABASE_HOST
+            value: postgres
+          - name: FAROS_DATABASE_PASSWORD
+            value: {{ .Values.database.password }}
+          - name: FAROS_DATABASE_USERNAME
+            value: {{ .Values.database.user }}
+          - name: FAROS_GATEWAY_ADDR
+            value: ":8443"
+          - name: FAROS_GATEWAY_INTERNAL_GATEWAY_URL
+            value: https://faros-gateway.faros.svc:8443
+          - name: FAROS_GATEWAY_AUTO_DNS_DOMAIN
+            value: "gateway.faros.sh,*.apps.faros.sh"
+          - name: FAROS_GATEWAY_AUTO_CERT_LE_EMAIL
+            value: {{ .Values.cloudflare.email }}
+          - name: FAROS_GATEWAY_AUTO_CERT_CLOUDFLARE_KEY
+            value: {{ .Values.cloudflare.key }}
+          - name: FAROS_GATEWAY_AUTO_CERT_USE_STAGING
+            value: {{ .Values.certificates.useStaging | quote }}
+      volumes:
+      - name: faros-storage
+        persistentVolumeClaim:
+          claimName: faros-gateway-storage
