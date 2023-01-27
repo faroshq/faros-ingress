@@ -39,7 +39,7 @@ func (o *UpdateOptions) BindFlags(cmd *cobra.Command) {
 
 	cmd.Flags().StringVarP(&o.Username, "username", "u", "", "Username for agent")
 	cmd.Flags().StringVarP(&o.Password, "password", "p", "", "Password for agent")
-	cmd.Flags().StringVarP(&o.Hostname, "hostname", "n", "", "Hostname for agent")
+	cmd.Flags().StringVarP(&o.Hostname, "hostname", "", "", "Hostname for agent")
 }
 
 // Complete ensures all dynamically populated fields are initialized.

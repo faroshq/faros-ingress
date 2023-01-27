@@ -1,7 +1,7 @@
 # Faros
 
 Faros is a minimal universal ingress controller for Everything
-Using faros you can expose any service on any port to the internet
+Using `faros` you can expose any service on any port to the internet
 
 
 # Install CLI:

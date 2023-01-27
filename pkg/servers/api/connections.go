@@ -112,15 +112,21 @@ func (s *Service) createConnection(w http.ResponseWriter, r *http.Request) {
 	identity := uuid.New().String()
 	connection.Identity = identity
 
+	// clean up hostname
+	request.Hostname = strings.Replace(request.Hostname, "https://", "", 1)
+	request.Hostname = strings.Replace(request.Hostname, "http://", "", 1)
+	request.Hostname = strings.Replace(request.Hostname, s.config.HostnameSuffix, "", 1)
+
+	// if hostname is not provided, generate one
 	if request.Hostname == "" {
 		request.Hostname = fmt.Sprintf("https://%s.%s", utilhash.GetHash(uuid.New().String()), s.config.HostnameSuffix)
 	} else {
-		host, err := url.Parse(request.Hostname)
+		request.Hostname = fmt.Sprintf("https://%s.%s", request.Hostname, s.config.HostnameSuffix)
+		_, err := url.Parse(request.Hostname)
 		if err != nil {
 			utilhttp.WriteErrorBadRequestWithReason(w, fmt.Errorf("hostname is not valid"), err)
 			return
 		}
-		request.Hostname = fmt.Sprintf("https://%s", host)
 	}
 
 	if !strings.HasSuffix(request.Hostname, s.config.HostnameSuffix) {

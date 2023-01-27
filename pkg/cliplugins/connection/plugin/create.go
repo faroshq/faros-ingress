@@ -20,6 +20,9 @@ type CreateOptions struct {
 	// Name is the name of the Agent to be Created.
 	Name string
 
+	// Hostname is the hostname of the agent
+	Hostname string
+
 	// Secure is the flag to use secure connection with basic auth
 	Secure bool
 }
@@ -36,6 +39,7 @@ func (o *CreateOptions) BindFlags(cmd *cobra.Command) {
 	o.Options.BindFlags(cmd)
 
 	cmd.Flags().BoolVarP(&o.Secure, "secure", "s", false, "Secure with basic auth")
+	cmd.Flags().StringVarP(&o.Hostname, "hostname", "", "", "Hostname of the agent")
 }
 
 // Complete ensures all dynamically populated fields are initialized.
@@ -76,8 +80,9 @@ func (o *CreateOptions) Run(ctx context.Context) error {
 	c := client.NewClient(u, config.BearerToken, nil)
 
 	conn, err := c.CreateConnection(ctx, api.Connection{
-		Name:   o.Name,
-		Secure: o.Secure,
+		Name:     o.Name,
+		Secure:   o.Secure,
+		Hostname: o.Hostname,
 	})
 	if err != nil {
 		return err

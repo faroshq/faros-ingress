@@ -12,16 +12,16 @@ import (
 var (
 	connectionExample = `
 	# Create a connection
-	%[1]s create <connection-name>
+	%[1]s <connection-name>
 
 	# List connections
-	%[1]s list
+	%[1]s
 
 	# Get a connection
-	%[1]s get <connection-name>
+	%[1]s <connection-name>
 
 	# Delete a connection
-	%[1]s delete <connection-name1> <connection-name2> ...
+	%[1]s <connection-name1> <connection-name2> ...
 `
 )
 

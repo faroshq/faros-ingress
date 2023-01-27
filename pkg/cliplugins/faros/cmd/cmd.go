@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 
-	connectcmd "github.com/faroshq/faros-ingress/pkg/cliplugins/connect/cmd"
 	connectioncmd "github.com/faroshq/faros-ingress/pkg/cliplugins/connection/cmd"
+	exposecmd "github.com/faroshq/faros-ingress/pkg/cliplugins/expose/cmd"
 	logincmd "github.com/faroshq/faros-ingress/pkg/cliplugins/login/cmd"
 )
 
@@ -20,7 +20,7 @@ func New(streams genericclioptions.IOStreams) (*cobra.Command, error) {
 		os.Exit(1)
 	}
 
-	connectCmd, err := connectcmd.New(genericclioptions.IOStreams{In: os.Stdin, Out: os.Stdout, ErrOut: os.Stderr})
+	exposeCmd, err := exposecmd.New(genericclioptions.IOStreams{In: os.Stdin, Out: os.Stdout, ErrOut: os.Stderr})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(1)
@@ -38,7 +38,7 @@ func New(streams genericclioptions.IOStreams) (*cobra.Command, error) {
 	}
 
 	cmd.AddCommand(connectionCmd)
-	cmd.AddCommand(connectCmd)
+	cmd.AddCommand(exposeCmd)
 	cmd.AddCommand(loginCmd)
 
 	return cmd, nil
