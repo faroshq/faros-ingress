@@ -17,7 +17,7 @@ import (
 type DeleteOptions struct {
 	*base.Options
 
-	Name string
+	Names []string
 }
 
 // NewDeleteOptions returns a new DeleteOptions.
@@ -38,7 +38,7 @@ func (o *DeleteOptions) Complete(args []string) error {
 		return err
 	}
 
-	o.Name = args[0]
+	o.Names = args
 
 	return nil
 }
@@ -74,14 +74,16 @@ func (o *DeleteOptions) Run(ctx context.Context) error {
 	}
 
 	for _, conn := range conns.Items {
-		if conn.Name == o.Name {
-			err = c.DeleteConnection(ctx, conn)
-			if err != nil {
-				return err
+		for _, name := range o.Names {
+			if conn.Name == name {
+				err = c.DeleteConnection(ctx, conn)
+				if err != nil {
+					return err
+				}
+				fmt.Printf("Connection '%s' deleted \n", name)
 			}
 		}
 	}
 
-	fmt.Printf("Connection %s deleted \n", o.Name)
 	return nil
 }

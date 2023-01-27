@@ -11,9 +11,17 @@ import (
 
 var (
 	connectionExample = `
-	# Ensure a agent is running on the specified connection target.
-	%[1]s TBC
-	KUBECONFIG=<pcluster-config> <agent_image>
+	# Create a connection
+	%[1]s create <connection-name>
+
+	# List connections
+	%[1]s list
+
+	# Get a connection
+	%[1]s get <connection-name>
+
+	# Delete a connection
+	%[1]s delete <connection-name1> <connection-name2> ...
 `
 )
 
@@ -111,11 +119,11 @@ func New(streams genericclioptions.IOStreams) (*cobra.Command, error) {
 	deleteOptions := plugin.NewDeleteOptions(streams)
 	deleteCmd := &cobra.Command{
 		Use:          "delete",
-		Short:        "Delete a agent",
-		Example:      fmt.Sprintf(connectionExample, "kubectl faros agent connection"),
+		Short:        "Delete a connection",
+		Example:      fmt.Sprintf(connectionExample, "kubectl faros connection"),
 		SilenceUsage: true,
 		RunE: func(c *cobra.Command, args []string) error {
-			if len(args) != 1 {
+			if len(args) == 0 {
 				return c.Help()
 			}
 
@@ -139,7 +147,7 @@ func New(streams genericclioptions.IOStreams) (*cobra.Command, error) {
 	connectCmd := &cobra.Command{
 		Use:          "connect",
 		Short:        "Connect using connector",
-		Example:      fmt.Sprintf(connectionExample, "kubectl faros agent connection connect"),
+		Example:      fmt.Sprintf(connectionExample, "kubectl faros connection connect"),
 		SilenceUsage: true,
 		RunE: func(c *cobra.Command, args []string) error {
 			if len(args) != 1 {
