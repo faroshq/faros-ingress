@@ -61,7 +61,7 @@ func (s *Store) UpdateConnection(ctx context.Context, p models.Connection) (*mod
 	}
 
 	query := models.Connection{ID: p.ID}
-	err := s.db.WithContext(ctx).Model(&models.Workspace{}).Where(&query).Save(&p).Error
+	err := s.db.WithContext(ctx).Model(&models.Connection{}).Where(&query).Save(&p).Error
 	if err != nil {
 		return nil, err
 	}

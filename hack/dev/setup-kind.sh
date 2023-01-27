@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source .env.dev
+source .env
 
 if [ ! -f "/usr/local/bin/kind" ]; then
  echo "Installing KIND"

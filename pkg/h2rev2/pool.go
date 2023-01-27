@@ -285,7 +285,7 @@ func (rp *ReversePool) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		// keep the handler alive until the connection is closed
 		<-conn.Done()
-		klog.V(5).Infof("Connection from %s done", r.RemoteAddr)
+		klog.V(4).Infof("Connection from %s done", r.RemoteAddr)
 	}
 }
 

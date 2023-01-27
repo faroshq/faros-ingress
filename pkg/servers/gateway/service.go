@@ -13,6 +13,7 @@ import (
 	"k8s.io/utils/clock"
 
 	"github.com/caddyserver/certmagic"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/faroshq/faros-ingress/pkg/config"
 	"github.com/faroshq/faros-ingress/pkg/h2rev2"
 	"github.com/faroshq/faros-ingress/pkg/recover"
@@ -180,6 +181,7 @@ func (s *Service) handler() http.Handler {
 		if strings.HasPrefix(r.URL.Path, "/api/v1alpha1/proxy/") {
 			s.revPool.ServeHTTP(w, r)
 		} else {
+			spew.Dump(r.URL.Path)
 			s.serveIngestor(w, r)
 		}
 	})

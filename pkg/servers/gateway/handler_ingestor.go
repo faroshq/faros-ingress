@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/faroshq/faros-ingress/pkg/models"
 	"k8s.io/klog/v2"
 )
 
@@ -24,13 +25,13 @@ func (s *Service) serveIngestor(w http.ResponseWriter, r *http.Request) {
 
 		// If connection was found, bump last used time for housekeeping
 		// We gonna clean up connections that are not used for a while
-		go func() {
+		go func(conn *models.Connection) {
 			conn.LastUsedAt = s.clock.Now()
 			_, err := s.store.UpdateConnection(context.Background(), *conn)
 			if err != nil {
 				klog.Errorf("failed to update connection: %s", err)
 			}
-		}()
+		}(conn)
 
 		var authenticated bool
 		if conn.Secure {
