@@ -98,25 +98,31 @@ func (s *Service) createConnection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// name is unique per user
-	connection := &models.Connection{
-		Name:   request.Name,
+	connections, err := s.store.ListConnections(ctx, models.Connection{
 		UserID: user.ID,
-	}
-	_, err = s.store.GetConnection(ctx, *connection)
-	if err == nil {
-		utilhttp.WriteErrorConflictWithReason(w, fmt.Errorf("connection already exists"), nil)
+	})
+	if err != nil {
+		utilhttp.WriteErrorInternalServerError(w, err)
 		return
 	}
 
-	_, err = s.store.GetConnection(ctx, *connection)
-	if err == nil {
-		utilhttp.WriteErrorConflictWithReason(w, fmt.Errorf("connection already exists"), nil)
+	// check connection quota
+	if len(connections) >= s.config.ConnectionQuota && s.config.ConnectionQuota != 0 {
+		utilhttp.WriteErrorBadRequestWithReason(w, fmt.Errorf("connection quota exceeded"), nil)
 		return
 	}
 
-	identity := uuid.New().String()
-	connection.Identity = identity
+	// name is unique per user
+	for _, connection := range connections {
+		if connection.Name == request.Name {
+			utilhttp.WriteErrorConflictWithReason(w, fmt.Errorf("connection already exists"), nil)
+			return
+		}
+	}
+
+	connection := models.Connection{
+		Identity: uuid.New().String(),
+	}
 
 	// clean up hostname
 	request.Hostname = strings.Replace(request.Hostname, "https://", "", 1)
@@ -179,7 +185,7 @@ func (s *Service) createConnection(w http.ResponseWriter, r *http.Request) {
 	connection.Hostname = request.Hostname
 	connection.TTL = request.TTL
 
-	connectionCreated, err := s.store.CreateConnection(ctx, *connection)
+	connectionCreated, err := s.store.CreateConnection(ctx, connection)
 	if err != nil {
 		utilhttp.WriteErrorInternalServerError(w, err)
 		return
@@ -188,7 +194,7 @@ func (s *Service) createConnection(w http.ResponseWriter, r *http.Request) {
 	utilhttp.Respond(w, api.Connection{
 		ID:       connectionCreated.ID,
 		Name:     connectionCreated.Name,
-		Identity: identity,
+		Identity: connectionCreated.Identity,
 		Hostname: connectionCreated.Hostname,
 		TTL:      connectionCreated.TTL,
 		Username: username,

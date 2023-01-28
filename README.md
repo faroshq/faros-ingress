@@ -1,14 +1,12 @@
 # Faros
 
-Faros is a minimal universal ingress controller for Everything
-Using `faros` you can expose any service on any port to the internet
+Faros is a minimal universal ingress controller for EVERYTHING
+Using `faros` you can expose any service on any port to the internet without any configuration.
 
-
-# Install CLI:
+# Install CLI
 
 ```bash
-# TODO: once public repo, this should work
-VERSION=v0.0.1
+VERSION=v0.0.6
 DISTRO=linux
 ARCH=amd64
 curl -sL https://github.com/faroshq/faros-ingress/releases/latest/download/faros-${VERSION}-${DISTRO}-${ARCH}.tar.gz -o faros.tar.gz
@@ -16,7 +14,6 @@ tar -xvf faros.tar.gz
 sudo mv faros /usr/local/bin
 rm -f faros.tar.gz
 ```
-
 
 # Roadmap
 

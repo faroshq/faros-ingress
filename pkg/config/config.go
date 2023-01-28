@@ -46,6 +46,9 @@ type Config struct {
 
 	Database Database   `yaml:"database,omitempty"`
 	OIDC     OIDCConfig `yaml:"oidcConfig,omitempty"`
+
+	// Quota is the quota to use for the connections per user. 0 means no quota.
+	ConnectionQuota int `envconfig:"FAROS_CONNECTIONS_QUOTA" default:"0"`
 }
 
 type OIDCConfig struct {
