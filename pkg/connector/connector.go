@@ -74,7 +74,7 @@ func New(config *config.ConnectorConfig) (*Connection, error) {
 		InsecureSkipVerify: true,
 	}
 
-	upstreamClient := &http.Client{Transport: transport2()}
+	upstreamClient := &http.Client{Transport: transport2(config)}
 
 	u, err := url.Parse(config.ControllerURL)
 	if err != nil {
@@ -91,16 +91,16 @@ func New(config *config.ConnectorConfig) (*Connection, error) {
 	}, nil
 }
 
-func transport2() *http2.Transport {
+func transport2(config *config.ConnectorConfig) *http2.Transport {
 	return &http2.Transport{
-		TLSClientConfig:    tlsConfig(),
+		TLSClientConfig:    tlsConfig(config),
 		DisableCompression: true,
 		AllowHTTP:          false,
 	}
 }
 
-func tlsConfig() *tls.Config {
-	crt, err := ioutil.ReadFile("./dev/server.crt")
+func tlsConfig(config *config.ConnectorConfig) *tls.Config {
+	crt, err := ioutil.ReadFile(config.TLSServerCertFile)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -121,7 +121,11 @@ func (s *Service) createConnection(w http.ResponseWriter, r *http.Request) {
 	}
 
 	connection := models.Connection{
-		Token: uuid.New().String(),
+		Token:  uuid.New().String(),
+		UserID: user.ID,
+		Name:   request.Name,
+		TTL:    request.TTL,
+		Secure: request.Secure,
 	}
 
 	// clean up hostname
