@@ -20,3 +20,5 @@ rm -f faros.tar.gz
 * Add connection status tracking. `connected` or `disconnected`.
 * Merge API and gateway into one binary for simplicity
 * Tests!
+* Add a feature to use multiple gateways for redundancy and scaling
+
