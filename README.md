@@ -21,6 +21,5 @@ rm -f faros.tar.gz
 # Roadmap
 
 * Add connection status tracking. `connected` or `disconnected`.
-* Merge configs into one struct
 * Merge API and gateway into one binary for simplicity
 * Tests!
