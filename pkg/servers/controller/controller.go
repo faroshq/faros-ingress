@@ -17,12 +17,12 @@ type Interface interface {
 	Run(ctx context.Context) error
 }
 type Service struct {
-	config *config.APIConfig
+	config *config.Config
 	store  store.Store
 	clock  clock.Clock
 }
 
-func New(ctx context.Context, config *config.APIConfig) (*Service, error) {
+func New(ctx context.Context, config *config.Config) (*Service, error) {
 	store, err := storesql.NewStore(ctx, &config.Database)
 	if err != nil {
 		return nil, err
