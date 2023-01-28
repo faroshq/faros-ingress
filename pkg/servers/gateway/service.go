@@ -98,6 +98,7 @@ func (s *Service) Run(ctx context.Context) error {
 
 	go s.revPool.Run(ctx)
 	go s.authenticator.run(ctx)
+	go s.runGC(ctx)
 
 	if s.config.AutoCertEnabled() {
 		klog.V(2).InfoS("Server will now listen with certMagic", "url", s.config.Addr)

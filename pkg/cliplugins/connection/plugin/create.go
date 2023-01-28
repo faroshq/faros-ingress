@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"time"
 
 	"github.com/spf13/cobra"
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -19,10 +20,10 @@ type CreateOptions struct {
 	*base.Options
 	// Name is the name of the Agent to be Created.
 	Name string
-
 	// Hostname is the hostname of the agent
 	Hostname string
-
+	// TTL is the timeout for the connection
+	TTL time.Duration
 	// Secure is the flag to use secure connection with basic auth
 	Secure bool
 }
@@ -40,6 +41,7 @@ func (o *CreateOptions) BindFlags(cmd *cobra.Command) {
 
 	cmd.Flags().BoolVarP(&o.Secure, "secure", "s", false, "Secure with basic auth")
 	cmd.Flags().StringVarP(&o.Hostname, "hostname", "", "", "Hostname of the agent")
+	cmd.Flags().DurationVarP(&o.TTL, "ttl", "", 24*time.Hour, "Timeout TTL for the connection")
 }
 
 // Complete ensures all dynamically populated fields are initialized.
@@ -83,6 +85,7 @@ func (o *CreateOptions) Run(ctx context.Context) error {
 		Name:     o.Name,
 		Secure:   o.Secure,
 		Hostname: o.Hostname,
+		TTL:      o.TTL,
 	})
 	if err != nil {
 		return err

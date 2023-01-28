@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"time"
 
 	"github.com/spf13/cobra"
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -31,6 +32,8 @@ type ExposeOptions struct {
 	Token string
 	// ConnectionID is the ID of the connection to use.
 	ConnectionID string
+	// TTL is the TTL for the connection.
+	TTL time.Duration
 
 	// create is set to true if the connection should be created.
 	create bool
@@ -52,6 +55,7 @@ func (o *ExposeOptions) BindFlags(cmd *cobra.Command) {
 	cmd.Flags().StringVarP(&o.DownstreamURL, "downstream", "d", "http://localhost:8080", "Downstream URL")
 	cmd.Flags().StringVarP(&o.Token, "token", "t", "", "Token for the connection")
 	cmd.Flags().StringVarP(&o.ConnectionID, "connection-id", "c", "", "Connection ID")
+	cmd.Flags().DurationVarP(&o.TTL, "ttl", "", time.Hour, "Timeout TTL for the connection")
 }
 
 // Complete ensures all dynamically populated fields are initialized.
@@ -120,6 +124,7 @@ func (o *ExposeOptions) Run(ctx context.Context) error {
 		existing, err = c.CreateConnection(ctx, api.Connection{
 			Name:   o.Name,
 			Secure: o.Secure,
+			TTL:    o.TTL,
 		})
 		if err != nil {
 			return err

@@ -23,10 +23,11 @@ type Workspace struct {
 
 // Connection is a model for the connection database model storing the remote connection information.
 type Connection struct {
-	ID         string    `json:"id" yaml:"id" gorm:"primaryKey,uniqueIndex"`
-	CreatedAt  time.Time `json:"createdAt" yaml:"createdAt" grom:"index"`
-	UpdatedAt  time.Time `json:"updatedAt" yaml:"updatedAt"`
-	LastUsedAt time.Time `json:"lastUsedAt" yaml:"lastUsedAt" grom:"index"`
+	ID         string        `json:"id" yaml:"id" gorm:"primaryKey,uniqueIndex"`
+	CreatedAt  time.Time     `json:"createdAt" yaml:"createdAt" grom:"index"`
+	UpdatedAt  time.Time     `json:"updatedAt" yaml:"updatedAt"`
+	LastUsedAt time.Time     `json:"lastUsedAt" yaml:"lastUsedAt" grom:"index"`
+	TTL        time.Duration `json:"ttl,omitempty"`
 
 	UserID string `json:"userId" yaml:"userId" gorm:"index"`
 	// Name is user facing name of the remote connection

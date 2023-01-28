@@ -155,7 +155,7 @@ func (o *ConnectOptions) Run(ctx context.Context) error {
 	fmt.Println("URL: " + existing.Hostname + " --> " + o.DownstreamURL)
 	fmt.Println("")
 	if existing.Secure {
-		fmt.Println("Basic Auth:")
+		fmt.Println("Basic auth:")
 		fmt.Println("Username: " + existing.Username)
 		fmt.Println("Password: " + existing.Password)
 	}

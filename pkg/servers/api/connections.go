@@ -41,8 +41,13 @@ func (s *Service) getConnection(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result := api.Connection{
-		ID:   connectionRef.ID,
-		Name: connectionRef.Name,
+		ID:       connectionRef.ID,
+		Name:     connectionRef.Name,
+		TTL:      connectionRef.TTL,
+		Identity: connectionRef.Identity,
+		Hostname: connectionRef.Hostname,
+		Secure:   connectionRef.Secure,
+		LastUsed: connectionRef.LastUsedAt,
 	}
 
 	utilhttp.Respond(w, result)
@@ -70,6 +75,7 @@ func (s *Service) listConnections(w http.ResponseWriter, r *http.Request) {
 			Name:     connectionRef.Name,
 			LastUsed: connectionRef.LastUsedAt,
 			Identity: connectionRef.Identity,
+			TTL:      connectionRef.TTL,
 			Hostname: connectionRef.Hostname,
 			Secure:   connectionRef.Secure,
 		})
@@ -171,6 +177,7 @@ func (s *Service) createConnection(w http.ResponseWriter, r *http.Request) {
 
 	connection.GatewayURL = s.config.DefaultGateway
 	connection.Hostname = request.Hostname
+	connection.TTL = request.TTL
 
 	connectionCreated, err := s.store.CreateConnection(ctx, *connection)
 	if err != nil {
@@ -183,6 +190,7 @@ func (s *Service) createConnection(w http.ResponseWriter, r *http.Request) {
 		Name:     connectionCreated.Name,
 		Identity: identity,
 		Hostname: connectionCreated.Hostname,
+		TTL:      connectionCreated.TTL,
 		Username: username,
 		Password: password,
 		Secure:   connectionCreated.Secure,
@@ -196,7 +204,7 @@ func (s *Service) updateConnection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	connectionID := mux.Vars(r)["Connection"]
+	connectionID := mux.Vars(r)["connection"]
 
 	request := &api.Connection{}
 	err = utilhttp.Read(r, request)
