@@ -24,3 +24,5 @@ show-sqlite-database:
 dev-run-hello-world:
 	docker run -it -p 8080:8080 quay.io/synpse/hello-synpse-go
 
+build-cli:
+	go build -o bin/faros ./cmd/kubectl-faros
