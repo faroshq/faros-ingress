@@ -18,8 +18,6 @@ type DeleteOptions struct {
 	*base.Options
 
 	Names []string
-
-	DeleteAll bool
 }
 
 // NewDeleteOptions returns a new DeleteOptions.
@@ -32,8 +30,6 @@ func NewDeleteOptions(streams genericclioptions.IOStreams) *DeleteOptions {
 // BindFlags binds fields DeleteOptions as command line flags to cmd's flagset.
 func (o *DeleteOptions) BindFlags(cmd *cobra.Command) {
 	o.Options.BindFlags(cmd)
-
-	cmd.Flags().BoolVarP(&o.DeleteAll, "all", "", false, "Delete all connections")
 }
 
 // Complete ensures all dynamically populated fields are initialized.
@@ -78,15 +74,6 @@ func (o *DeleteOptions) Run(ctx context.Context) error {
 	}
 
 	for _, conn := range conns.Items {
-		if o.DeleteAll {
-			err = c.DeleteConnection(ctx, conn)
-			if err != nil {
-				return err
-			}
-			fmt.Printf("Connection '%s' deleted \n", conn.Name)
-			continue
-		}
-
 		for _, name := range o.Names {
 			if conn.Name == name {
 				err = c.DeleteConnection(ctx, conn)
