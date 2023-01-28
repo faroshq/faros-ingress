@@ -123,10 +123,6 @@ func New(streams genericclioptions.IOStreams) (*cobra.Command, error) {
 		Example:      fmt.Sprintf(connectionExample, "kubectl faros connection"),
 		SilenceUsage: true,
 		RunE: func(c *cobra.Command, args []string) error {
-			if len(args) == 0 {
-				return c.Help()
-			}
-
 			if err := deleteOptions.Complete(args); err != nil {
 				return err
 			}
