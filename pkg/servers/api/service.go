@@ -30,7 +30,7 @@ type Interface interface {
 	Run(ctx context.Context) error
 }
 type Service struct {
-	config        *config.APIConfig
+	config        *config.Config
 	authenticator auth.Authenticator
 	server        *http.Server
 	router        *mux.Router
@@ -38,7 +38,7 @@ type Service struct {
 	store         store.Store
 }
 
-func New(ctx context.Context, config *config.APIConfig) (*Service, error) {
+func New(ctx context.Context, config *config.Config) (*Service, error) {
 	store, err := storesql.NewStore(ctx, &config.Database)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func New(ctx context.Context, config *config.APIConfig) (*Service, error) {
 	agentGateway.HandleFunc("/{connection}", s.getConnectionGateway).Methods(http.MethodGet) // /api/v1alpha1/connection-gateway/{connection}
 
 	s.server = &http.Server{
-		Addr:     config.Addr,
+		Addr:     config.APIAddr,
 		ErrorLog: utilhttp.NewServerErrorLog(),
 		Handler: handlers.CORS(
 			handlers.AllowCredentials(),
@@ -118,7 +118,7 @@ func (s *Service) Run(ctx context.Context) error {
 	}()
 
 	if s.config.AutoCertEnabled() {
-		klog.V(2).InfoS("Server will now listen with certMagic", "url", s.config.Addr)
+		klog.V(2).InfoS("Server will now listen with certMagic", "url", s.config.APIAddr)
 		cache := certmagic.NewCache(certmagic.CacheOptions{
 			GetConfigForCert: func(cert certmagic.Certificate) (*certmagic.Config, error) {
 				return &certmagic.Config{
@@ -159,7 +159,7 @@ func (s *Service) Run(ctx context.Context) error {
 		magic.Issuers = []certmagic.Issuer{issuer}
 
 		// this obtains certificates or renews them if necessary
-		err := magic.ManageSync(ctx, s.config.AutoCertDomains)
+		err := magic.ManageSync(ctx, s.config.AutoCertAPIDomains)
 		if err != nil {
 			return err
 		}
@@ -167,7 +167,7 @@ func (s *Service) Run(ctx context.Context) error {
 		s.server.TLSConfig = magic.TLSConfig()
 		s.server.TLSConfig.NextProtos = append(s.server.TLSConfig.NextProtos, tlsalpn01.ACMETLS1Protocol)
 
-		log.Printf("Serving https for domains: %+v", s.config.AutoCertDomains)
+		log.Printf("Serving https for domains: %+v", s.config.AutoCertAPIDomains)
 		go func() {
 			for {
 				err := http.ListenAndServe(":8080", issuer.HTTPChallengeHandler(nil))
@@ -184,7 +184,7 @@ func (s *Service) Run(ctx context.Context) error {
 
 	} else {
 		// Bring your own certs
-		klog.V(2).InfoS("Server will now listen", "url", s.config.Addr)
+		klog.V(2).InfoS("Server will now listen", "url", s.config.APIAddr)
 		err := s.server.ListenAndServeTLS(s.config.TLSCertFile, s.config.TLSKeyFile)
 		if err != nil {
 			klog.Error("api listen error", zap.Error(err))

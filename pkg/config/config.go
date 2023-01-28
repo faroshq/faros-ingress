@@ -10,31 +10,45 @@ const (
 	ConfigFileName = "config.yaml"
 )
 
-type APIConfig struct {
-	// Addr is the address to bind the controller to.
-	Addr string `envconfig:"FAROS_API_ADDR" required:"true" default:":8443"`
-	// ExternalURL is the URL that the controller is externally reachable at.
-	ExternalURL string `envconfig:"FAROS_API_EXTERNAL_URL" required:"true" default:"https://faros.dev.faros.sh"`
-
-	TLSKeyFile            string   `envconfig:"FAROS_API_TLS_KEY_FILE" default:""`
-	TLSCertFile           string   `envconfig:"FAROS_API_TLS_CERT_FILE" default:""`
-	AutoCertDomains       []string `envconfig:"FAROS_API_AUTO_DNS_DOMAIN" required:"true" default:"api.faros.sh"`
-	AutoCertCacheDir      string   `envconfig:"FAROS_API_AUTO_CERT_CACHE_DIR" required:"true" default:"/faros/cache"`
-	AutoCertLEEmail       string   `envconfig:"FAROS_API_AUTO_CERT_LE_EMAIL" default:""`
-	AutoCertCloudFlareKey string   `envconfig:"FAROS_API_AUTO_CERT_CLOUDFLARE_KEY" default:""`
-	AutoCertUseStaging    bool     `envconfig:"FAROS_API_AUTO_CERT_USE_STAGING" default:"true"`
-
-	// HostnameSuffix is the suffix of the hostname to use for the access.
-	HostnameSuffix string `envconfig:"FAROS_API_HOSTNAME_SUFFIX" required:"true" default:"apps.faros.sh"`
-
+type Config struct {
+	// APIAddr is the address to bind the controller to.
+	APIAddr string `envconfig:"FAROS_API_ADDR" required:"true" default:":8443"`
+	// GatewayAddr is the address to bind the gateway to.
+	GatewayAddr string `envconfig:"FAROS_GATEWAY_ADDR" required:"true" default:":8444"`
+	// ExternalAPIURL is the URL that the api is externally accessible at.
+	ExternalAPIURL string `envconfig:"FAROS_API_EXTERNAL_URL" required:"true" default:"https://faros.dev.faros.sh"`
+	// ExternalGatewayURL is the URL that the gateway is externally accessible at.
+	ExternalGatewayURL string `envconfig:"FAROS_GATEWAY_EXTERNAL_URL" required:"true" default:"https://gateway.faros.sh"`
 	// DefaultGateway is the default gateway to use for the access.
-	DefaultGateway string `envconfig:"FAROS_API_DEFAULT_GATEWAY" required:"true" default:"https://gateway.dev.faros.sh"`
-
+	DefaultGateway string `envconfig:"FAROS_DEFAULT_GATEWAY" required:"true" default:"https://gateway.dev.faros.sh"`
+	// InternalGatewayURL is the URL that the gateway is internally accessible at.
+	InternalGatewayURL string `envconfig:"FAROS_GATEWAY_INTERNAL_GATEWAY_URL" required:"true" default:"https://localhost:8444"`
+	// HostnameSuffix is the suffix of the hostname to use for the access.
+	HostnameSuffix string `envconfig:"FAROS_HOSTNAME_SUFFIX" required:"true" default:"apps.faros.sh"`
 	// ClusterKubeConfigPath
-	ClusterKubeConfigPath string `envconfig:"FAROS_API_CLUSTER_KUBECONFIG"`
+	ClusterKubeConfigPath string `envconfig:"FAROS_CLUSTER_KUBECONFIG"`
 	ClusterRestConfig     *rest.Config
 
-	// OIDC provider configuration
+	// Both api and gateway use the same TLS configuration. Use common certs or change the code :)
+	// In prod we use auto-certs so this is not an issue.
+	TLSKeyFile  string `envconfig:"FAROS_TLS_KEY_FILE" default:""`
+	TLSCertFile string `envconfig:"FAROS_TLS_CERT_FILE" default:""`
+
+	// AutoCertAPIDomains is the list of domains to use for auto-cert.
+	AutoCertAPIDomains []string `envconfig:"FAROS_API_AUTO_DNS_DOMAIN" required:"true" default:"api.faros.sh"`
+	// AutoCertGatewayDomains is the list of domains to use for auto-cert.
+	AutoCertGatewayDomains []string `envconfig:"FAROS_GATEWAY_AUTO_DNS_DOMAIN" required:"true" default:"gateway.faros.sh"`
+
+	AutoCertCacheDir      string `envconfig:"FAROS_AUTO_CERT_CACHE_DIR" required:"true" default:"/faros/cache"`
+	AutoCertLEEmail       string `envconfig:"FAROS_AUTO_CERT_LE_EMAIL" default:""`
+	AutoCertCloudFlareKey string `envconfig:"FAROS_AUTO_CERT_CLOUDFLARE_KEY" default:""`
+	AutoCertUseStaging    bool   `envconfig:"FAROS_AUTO_CERT_USE_STAGING" default:"true"`
+
+	Database Database   `yaml:"database,omitempty"`
+	OIDC     OIDCConfig `yaml:"oidcConfig,omitempty"`
+}
+
+type OIDCConfig struct {
 	OIDCIssuerURL         string `envconfig:"FAROS_OIDC_ISSUER_URL" yaml:"oidcIssuerURL,omitempty" default:"https://dex.dev.faros.sh"`
 	OIDCClientID          string `envconfig:"FAROS_OIDC_CLIENT_ID" yaml:"oidcClientID,omitempty" default:"faros"`
 	OIDCClientSecret      string `envconfig:"FAROS_OIDC_CLIENT_SECRET" yaml:"oidcClientSecret,omitempty" default:"faros"`
@@ -44,28 +58,6 @@ type APIConfig struct {
 	OIDCUserPrefix        string `envconfig:"FAROS_OIDC_USER_PREFIX" yaml:"oidcUserPrefix,omitempty" default:"faros-sso"`
 	OIDCGroupsPrefix      string `envconfig:"FAROS_OIDC_GROUPS_PREFIX" yaml:"oidcGroupsPrefix,omitempty" default:"faros-sso"`
 	OIDCAuthSessionKey    string `envconfig:"FAROS_OIDC_AUTH_SESSION_KEY" yaml:"oidcAuthSessionKey,omitempty" default:""`
-
-	Database Database `yaml:"database,omitempty"`
-}
-
-type GatewayConfig struct {
-	// Addr is the address to bind the controller to.
-	Addr string `envconfig:"FAROS_GATEWAY_ADDR" required:"true" default:":8444"`
-	// ExternalURL is the URL that the controller is externally reachable at.
-	ExternalURL string `envconfig:"FAROS_GATEWAY_EXTERNAL_URL" required:"true" default:"https://gateway.faros.sh"`
-
-	InternalGatewayURL string `envconfig:"FAROS_GATEWAY_INTERNAL_GATEWAY_URL" required:"true" default:"https://localhost:8444"`
-
-	TLSKeyFile  string `envconfig:"FAROS_GATEWAY_TLS_KEY_FILE" default:""`
-	TLSCertFile string `envconfig:"FAROS_GATEWAY_TLS_CERT_FILE" default:""`
-
-	AutoCertDomains       []string `envconfig:"FAROS_GATEWAY_AUTO_DNS_DOMAIN" required:"true" default:"gateway.faros.sh"`
-	AutoCertCacheDir      string   `envconfig:"FAROS_GATEWAY_AUTO_CERT_CACHE_DIR" required:"true" default:"/faros/cache"`
-	AutoCertLEEmail       string   `envconfig:"FAROS_GATEWAY_AUTO_CERT_LE_EMAIL" default:""`
-	AutoCertCloudFlareKey string   `envconfig:"FAROS_GATEWAY_AUTO_CERT_CLOUDFLARE_KEY" default:""`
-	AutoCertUseStaging    bool     `envconfig:"FAROS_GATEWAY_AUTO_CERT_USE_STAGING" default:"true"`
-
-	Database Database `yaml:"database,omitempty"`
 }
 
 type Database struct {
@@ -115,14 +107,7 @@ type ConnectorConfig struct {
 	TLSClientSkipVerify bool
 }
 
-func (c *APIConfig) AutoCertEnabled() bool {
-	if c.TLSCertFile == "" && c.TLSKeyFile == "" {
-		return true
-	}
-	return false
-}
-
-func (c *GatewayConfig) AutoCertEnabled() bool {
+func (c *Config) AutoCertEnabled() bool {
 	if c.TLSCertFile == "" && c.TLSKeyFile == "" {
 		return true
 	}

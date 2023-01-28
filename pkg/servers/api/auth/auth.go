@@ -45,7 +45,7 @@ type Authenticator interface {
 var _ Authenticator = &AuthenticatorImpl{}
 
 type AuthenticatorImpl struct {
-	config *config.APIConfig
+	config *config.Config
 
 	oAuthSessions *sessions.CookieStore
 	store         store.Store
@@ -55,7 +55,7 @@ type AuthenticatorImpl struct {
 	client        *http.Client
 }
 
-func NewAuthenticator(cfg *config.APIConfig, store store.Store, callbackURLPrefix string) (*AuthenticatorImpl, error) {
+func NewAuthenticator(cfg *config.Config, store store.Store, callbackURLPrefix string) (*AuthenticatorImpl, error) {
 	var client *http.Client
 	var err error
 	ctx := context.Background()
@@ -66,7 +66,7 @@ func NewAuthenticator(cfg *config.APIConfig, store store.Store, callbackURLPrefi
 		return nil, err
 	}
 
-	secret, err := hostingCoreClient.CoreV1().Secrets(cfg.OIDCCASecretNamespace).Get(ctx, cfg.OIDCCASecretName, metav1.GetOptions{})
+	secret, err := hostingCoreClient.CoreV1().Secrets(cfg.OIDC.OIDCCASecretNamespace).Get(ctx, cfg.OIDC.OIDCCASecretName, metav1.GetOptions{})
 	if err != nil && !apierrors.IsNotFound(err) {
 		return nil, err
 	}
@@ -87,15 +87,15 @@ func NewAuthenticator(cfg *config.APIConfig, store store.Store, callbackURLPrefi
 		ctx = oidc.ClientContext(ctx, client)
 	}
 
-	redirectURL := cfg.ExternalURL + callbackURLPrefix
+	redirectURL := cfg.ExternalAPIURL + callbackURLPrefix
 
-	provider, err := oidc.NewProvider(ctx, cfg.OIDCIssuerURL)
+	provider, err := oidc.NewProvider(ctx, cfg.OIDC.OIDCIssuerURL)
 	if err != nil {
 		return nil, err
 	}
 	// Create an ID token parser, but only trust ID tokens issued to "example-app"
 	verifier := provider.Verifier(&oidc.Config{
-		ClientID: cfg.OIDCClientID,
+		ClientID: cfg.OIDC.OIDCClientID,
 	})
 
 	da := &AuthenticatorImpl{
@@ -105,7 +105,7 @@ func NewAuthenticator(cfg *config.APIConfig, store store.Store, callbackURLPrefi
 		provider:      provider,
 		client:        client,
 		redirectURL:   redirectURL,
-		oAuthSessions: sessions.NewCookieStore([]byte(cfg.OIDCAuthSessionKey)),
+		oAuthSessions: sessions.NewCookieStore([]byte(cfg.OIDC.OIDCAuthSessionKey)),
 	}
 	return da, nil
 }
@@ -237,7 +237,7 @@ func (a *AuthenticatorImpl) OIDCCallback(w http.ResponseWriter, r *http.Request)
 		IDToken:       *idToken,
 		RawIDToken:    rawIDToken,
 		Email:         claims.Email,
-		ServerBaseURL: fmt.Sprintf("%s", a.config.ExternalURL),
+		ServerBaseURL: fmt.Sprintf("%s", a.config.ExternalAPIURL),
 	}
 
 	data, err := json.Marshal(response)
@@ -348,8 +348,8 @@ func httpClientForRootCAs(crt, key []byte) (*http.Client, error) {
 
 func (a *AuthenticatorImpl) oauth2Config(scopes []string) *oauth2.Config {
 	return &oauth2.Config{
-		ClientID:     a.config.OIDCClientID,
-		ClientSecret: a.config.OIDCClientSecret,
+		ClientID:     a.config.OIDC.OIDCClientID,
+		ClientSecret: a.config.OIDC.OIDCClientSecret,
 		Endpoint:     a.provider.Endpoint(),
 		Scopes:       scopes,
 		RedirectURL:  a.redirectURL,

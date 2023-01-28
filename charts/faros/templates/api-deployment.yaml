@@ -45,13 +45,13 @@ spec:
             value: {{ .Values.oidc.issuer }}
           - name: FAROS_API_AUTO_DNS_DOMAIN
             value: api.faros.sh
-          - name: FAROS_API_AUTO_CERT_LE_EMAIL
+          - name: FAROS_AUTO_CERT_LE_EMAIL
             value: {{ .Values.cloudflare.email }}
-          - name: FAROS_API_AUTO_CERT_CLOUDFLARE_KEY
+          - name: FAROS_AUTO_CERT_CLOUDFLARE_KEY
             value: {{ .Values.cloudflare.key }}
-          - name: FAROS_API_DEFAULT_GATEWAY
+          - name: FAROS_DEFAULT_GATEWAY
             value: https://gateway.faros.sh
-          - name: FAROS_API_AUTO_CERT_USE_STAGING
+          - name: FAROS_AUTO_CERT_USE_STAGING
             value: {{ .Values.certificates.useStaging | quote }}
           - name: FAROS_API_EXTERNAL_URL
             value: https://api.faros.sh

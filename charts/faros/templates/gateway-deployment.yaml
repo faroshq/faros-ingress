@@ -45,11 +45,11 @@ spec:
             value: https://faros-gateway.faros.svc:8443
           - name: FAROS_GATEWAY_AUTO_DNS_DOMAIN
             value: "gateway.faros.sh,*.apps.faros.sh"
-          - name: FAROS_GATEWAY_AUTO_CERT_LE_EMAIL
+          - name: FAROS_AUTO_CERT_LE_EMAIL
             value: {{ .Values.cloudflare.email }}
-          - name: FAROS_GATEWAY_AUTO_CERT_CLOUDFLARE_KEY
+          - name: FAROS_AUTO_CERT_CLOUDFLARE_KEY
             value: {{ .Values.cloudflare.key }}
-          - name: FAROS_GATEWAY_AUTO_CERT_USE_STAGING
+          - name: FAROS_AUTO_CERT_USE_STAGING
             value: {{ .Values.certificates.useStaging | quote }}
       volumes:
       - name: faros-storage

@@ -34,7 +34,7 @@ func NewPostgresTestingStore(t *testing.T) (store.Store, error) {
 	var store store.Store
 	var err error
 
-	cfg, err := config.LoadAPI()
+	cfg, err := config.LoadConfig()
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func NewPostgresTestingStore(t *testing.T) (store.Store, error) {
 	return store, nil
 }
 
-func createTestDatabase(t *testing.T, cfg *config.APIConfig, testDatabaseName string) error {
+func createTestDatabase(t *testing.T, cfg *config.Config, testDatabaseName string) error {
 	ctx := klog.NewContext(context.Background(), klog.NewKlogr())
 	cfg.Database.Name = "postgres"
 

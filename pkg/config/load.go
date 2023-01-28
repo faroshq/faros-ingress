@@ -24,8 +24,8 @@ import (
 // Loading order:
 // 1. Load .env file
 // 2. Load envconfig from ENV variables and defaults
-func LoadAPI() (*APIConfig, error) {
-	c := &APIConfig{}
+func LoadConfig() (*Config, error) {
+	c := &Config{}
 	godotenv.Load()
 
 	err := envconfig.Process("", c)
@@ -33,9 +33,9 @@ func LoadAPI() (*APIConfig, error) {
 		return c, err
 	}
 
-	if c.OIDCAuthSessionKey == "" {
+	if c.OIDC.OIDCAuthSessionKey == "" {
 		fmt.Println("FAROS_OIDC_AUTH_SESSION_KEY not supplied, generating random one")
-		c.OIDCAuthSessionKey = uuid.Must(uuid.NewUUID()).String()
+		c.OIDC.OIDCAuthSessionKey = uuid.Must(uuid.NewUUID()).String()
 	}
 
 	exists, err := utilfile.Exist(c.TLSCertFile)
@@ -58,37 +58,6 @@ func LoadAPI() (*APIConfig, error) {
 		return nil, err
 	}
 	c.ClusterRestConfig = rest
-
-	return c, err
-}
-
-// LoadGateway loads the configuration from the environment and flags
-// Loading order:
-// 1. Load .env file
-// 2. Load envconfig from ENV variables and defaults
-func LoadGateway() (*GatewayConfig, error) {
-	c := &GatewayConfig{}
-	godotenv.Load()
-
-	err := envconfig.Process("", c)
-	if err != nil {
-		return c, err
-	}
-
-	exists, err := utilfile.Exist(c.TLSCertFile)
-	if err != nil {
-		return nil, fmt.Errorf("failed to check if TLS cert file exists: %w", err)
-	}
-	if !exists {
-		klog.V(2).Infof("TLS cert file does not provided, will use certMagic")
-	}
-	exists, err = utilfile.Exist(c.TLSKeyFile)
-	if err != nil {
-		return nil, fmt.Errorf("failed to check if TLS key file exists: %w", err)
-	}
-	if !exists {
-		klog.V(2).Infof("TLS key file does not provided, will use certMagic")
-	}
 
 	return c, err
 }

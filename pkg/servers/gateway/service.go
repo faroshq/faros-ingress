@@ -13,7 +13,6 @@ import (
 	"k8s.io/utils/clock"
 
 	"github.com/caddyserver/certmagic"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/faroshq/faros-ingress/pkg/config"
 	"github.com/faroshq/faros-ingress/pkg/h2rev2"
 	"github.com/faroshq/faros-ingress/pkg/recover"
@@ -32,7 +31,7 @@ type Interface interface {
 	Run(ctx context.Context) error
 }
 type Service struct {
-	config        *config.GatewayConfig
+	config        *config.Config
 	server        *http.Server
 	store         store.Store
 	revPool       *h2rev2.ReversePool
@@ -42,7 +41,7 @@ type Service struct {
 	clock         clock.Clock
 }
 
-func New(ctx context.Context, config *config.GatewayConfig) (*Service, error) {
+func New(ctx context.Context, config *config.Config) (*Service, error) {
 	store, err := storesql.NewStore(ctx, &config.Database)
 	if err != nil {
 		return nil, err
@@ -61,7 +60,7 @@ func New(ctx context.Context, config *config.GatewayConfig) (*Service, error) {
 	}
 
 	s.server = &http.Server{
-		Addr:     config.Addr,
+		Addr:     config.GatewayAddr,
 		ErrorLog: utilhttp.NewServerErrorLog(),
 		Handler:  s.handler(),
 	}
@@ -101,7 +100,7 @@ func (s *Service) Run(ctx context.Context) error {
 	go s.runGC(ctx)
 
 	if s.config.AutoCertEnabled() {
-		klog.V(2).InfoS("Server will now listen with certMagic", "url", s.config.Addr)
+		klog.V(2).InfoS("Server will now listen with certMagic", "url", s.config.GatewayAddr)
 		cache := certmagic.NewCache(certmagic.CacheOptions{
 			GetConfigForCert: func(cert certmagic.Certificate) (*certmagic.Config, error) {
 				return &certmagic.Config{
@@ -142,7 +141,7 @@ func (s *Service) Run(ctx context.Context) error {
 		magic.Issuers = []certmagic.Issuer{issuer}
 
 		// this obtains certificates or renews them if necessary
-		err := magic.ManageSync(ctx, s.config.AutoCertDomains)
+		err := magic.ManageSync(ctx, s.config.AutoCertGatewayDomains)
 		if err != nil {
 			return err
 		}
@@ -150,7 +149,7 @@ func (s *Service) Run(ctx context.Context) error {
 		s.server.TLSConfig = magic.TLSConfig()
 		s.server.TLSConfig.NextProtos = append(s.server.TLSConfig.NextProtos, tlsalpn01.ACMETLS1Protocol)
 
-		log.Printf("Serving https for domains: %+v", s.config.AutoCertDomains)
+		log.Printf("Serving https for domains: %+v", s.config.AutoCertGatewayDomains)
 		go func() {
 			for {
 				err := http.ListenAndServe(":8080", issuer.HTTPChallengeHandler(nil))
@@ -167,7 +166,7 @@ func (s *Service) Run(ctx context.Context) error {
 
 	} else {
 		// Bring your own certs
-		klog.V(2).InfoS("Server will now listen", "url", s.config.Addr)
+		klog.V(2).InfoS("Server will now listen", "url", s.config.GatewayAddr)
 		err := s.server.ListenAndServeTLS(s.config.TLSCertFile, s.config.TLSKeyFile)
 		if err != nil {
 			klog.Error("api listen error", zap.Error(err))
@@ -182,7 +181,6 @@ func (s *Service) handler() http.Handler {
 		if strings.HasPrefix(r.URL.Path, "/api/v1alpha1/proxy/") {
 			s.revPool.ServeHTTP(w, r)
 		} else {
-			spew.Dump(r.URL.Path)
 			s.serveIngestor(w, r)
 		}
 	})

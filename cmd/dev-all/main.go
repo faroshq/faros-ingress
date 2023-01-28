@@ -33,13 +33,11 @@ func main() {
 func run(ctx context.Context) error {
 
 	devVars := []string{
-		"FAROS_API_CLUSTER_KUBECONFIG=faros.kubeconfig",
-		"FAROS_API_TLS_KEY_FILE=dev/server.pem",
-		"FAROS_API_TLS_CERT_FILE=dev/server.pem",
-		"FAROS_GATEWAY_TLS_CERT_FILE=dev/server.pem",
-		"FAROS_GATEWAY_TLS_KEY_FILE=dev/server.pem",
-		"FAROS_API_HOSTNAME_SUFFIX=apps.dev.faros.sh",
-		"FAROS_API_DEFAULT_GATEWAY=https://localhost:8444",
+		"FAROS_CLUSTER_KUBECONFIG=faros.kubeconfig",
+		"FAROS_TLS_KEY_FILE=dev/server.pem",
+		"FAROS_TLS_CERT_FILE=dev/server.pem",
+		"FAROS_HOSTNAME_SUFFIX=apps.dev.faros.sh",
+		"FAROS_DEFAULT_GATEWAY=https://localhost:8444",
 		"FAROS_OIDC_ISSUER_URL=https://dex.dev.faros.sh",
 		"FAROS_GATEWAY_INTERNAL_GATEWAY_URL=https://localhost:8444",
 	}
@@ -52,22 +50,17 @@ func run(ctx context.Context) error {
 		}
 	}
 
-	configAPI, err := config.LoadAPI()
+	config, err := config.LoadConfig()
 	if err != nil {
 		return err
 	}
 
-	configGateway, err := config.LoadGateway()
+	gateway, err := gateway.New(ctx, config)
 	if err != nil {
 		return err
 	}
 
-	gateway, err := gateway.New(ctx, configGateway)
-	if err != nil {
-		return err
-	}
-
-	api, err := api.New(ctx, configAPI)
+	api, err := api.New(ctx, config)
 	if err != nil {
 		return err
 	}

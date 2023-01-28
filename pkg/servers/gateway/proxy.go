@@ -84,7 +84,7 @@ func (s *Service) roundTripper(r *http.Request) (*http.Response, error) {
 }
 
 func (s *Service) cli(ctx context.Context, gw *url.URL, conn *models.Connection) (*http.Client, error) {
-	extGW, err := url.Parse(s.config.ExternalURL)
+	extGW, err := url.Parse(s.config.ExternalGatewayURL)
 	if err != nil {
 		return nil, err
 	}
