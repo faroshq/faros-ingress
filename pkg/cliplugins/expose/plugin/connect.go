@@ -142,7 +142,7 @@ func (o *ExposeOptions) Run(ctx context.Context) error {
 	// override from flags
 	cfg.ControllerURL = restConfig.Host
 	cfg.DownstreamURL = o.DownstreamURL
-	cfg.Token = existing.Identity
+	cfg.Token = existing.Token
 	cfg.ConnectionID = existing.ID
 
 	client, err := connector.New(cfg)

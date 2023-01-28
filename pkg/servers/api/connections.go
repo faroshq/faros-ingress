@@ -44,7 +44,7 @@ func (s *Service) getConnection(w http.ResponseWriter, r *http.Request) {
 		ID:       connectionRef.ID,
 		Name:     connectionRef.Name,
 		TTL:      connectionRef.TTL,
-		Identity: connectionRef.Identity,
+		Token:    connectionRef.Token,
 		Hostname: connectionRef.Hostname,
 		Secure:   connectionRef.Secure,
 		LastUsed: connectionRef.LastUsedAt,
@@ -74,7 +74,7 @@ func (s *Service) listConnections(w http.ResponseWriter, r *http.Request) {
 			ID:       connectionRef.ID,
 			Name:     connectionRef.Name,
 			LastUsed: connectionRef.LastUsedAt,
-			Identity: connectionRef.Identity,
+			Token:    connectionRef.Token,
 			TTL:      connectionRef.TTL,
 			Hostname: connectionRef.Hostname,
 			Secure:   connectionRef.Secure,
@@ -121,7 +121,7 @@ func (s *Service) createConnection(w http.ResponseWriter, r *http.Request) {
 	}
 
 	connection := models.Connection{
-		Identity: uuid.New().String(),
+		Token: uuid.New().String(),
 	}
 
 	// clean up hostname
@@ -194,7 +194,7 @@ func (s *Service) createConnection(w http.ResponseWriter, r *http.Request) {
 	utilhttp.Respond(w, api.Connection{
 		ID:       connectionCreated.ID,
 		Name:     connectionCreated.Name,
-		Identity: connectionCreated.Identity,
+		Token:    connectionCreated.Token,
 		Hostname: connectionCreated.Hostname,
 		TTL:      connectionCreated.TTL,
 		Username: username,

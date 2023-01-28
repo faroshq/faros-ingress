@@ -13,7 +13,7 @@ type Connection struct {
 	LastUsed time.Time     `json:"lastUsed,omitempty" yaml:"lastUsed,omitempty"`
 	TTL      time.Duration `json:"ttl,omitempty" yaml:"ttl,omitempty"`
 
-	Identity string `json:"identity,omitempty" yaml:"identity,omitempty"`
+	Token    string `json:"token,omitempty" yaml:"token,omitempty"`
 	Hostname string `json:"hostname,omitempty" yaml:"hostname,omitempty"`
 
 	Secure   bool   `json:"secure,omitempty" yaml:"secure,omitempty"`

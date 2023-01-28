@@ -95,7 +95,7 @@ func (o *CreateOptions) Run(ctx context.Context) error {
 	fmt.Printf("\n")
 	fmt.Printf("ID: '%s'", conn.ID)
 	fmt.Printf("\n")
-	fmt.Printf("Token: '%s'", conn.Identity)
+	fmt.Printf("Token: '%s'", conn.Token)
 	fmt.Printf("\n")
 	fmt.Printf("Hostname: '%s'", conn.Hostname)
 	fmt.Printf("\n")

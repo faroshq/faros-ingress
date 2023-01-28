@@ -279,7 +279,7 @@ func strSliceContains(ss []string, s string) bool {
 // serverURL builds the destination url with the query parameter
 func serverURL(host string, id string) (string, error) {
 	if id == "" {
-		return "", fmt.Errorf("id can not be empty")
+		return "", fmt.Errorf("id can't be empty")
 	}
 	hostURL, err := url.Parse(host)
 	if err != nil || hostURL.Scheme != "https" || hostURL.Host == "" {

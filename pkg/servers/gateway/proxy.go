@@ -32,7 +32,7 @@ func (s *Service) director(req *http.Request) {
 		return
 	}
 
-	prefix := "/api/v1alpha1/proxy/proxy/" + conn.Identity + "/" + req.URL.Path
+	prefix := "/api/v1alpha1/proxy/proxy/" + conn.Token + "/" + req.URL.Path
 
 	gw, err := url.Parse(s.config.InternalGatewayURL)
 	if err != nil {
@@ -55,7 +55,7 @@ func (s *Service) director(req *http.Request) {
 
 	req.Header.Add(api.ConnectionClientHeader, api.ConnectionClientValue)
 
-	cli := s.clientCache.Get(conn.Identity)
+	cli := s.clientCache.Get(conn.Token)
 	if cli == nil {
 		var err error
 		cli, err = s.cli(ctx, gw, conn)
@@ -64,7 +64,7 @@ func (s *Service) director(req *http.Request) {
 			return
 		}
 
-		s.clientCache.Put(conn.Identity, cli)
+		s.clientCache.Put(conn.Token, cli)
 	}
 
 	*req = *req.WithContext(context.WithValue(ctx, contextKeyClient, cli))

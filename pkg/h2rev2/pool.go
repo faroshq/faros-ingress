@@ -55,7 +55,7 @@ func (rp *ReversePool) Run(ctx context.Context) error {
 	}
 	rp.mu.Lock()
 	for _, conn := range conns {
-		rp.authenticated[conn.ID] = conn.Identity
+		rp.authenticated[conn.ID] = conn.Token
 	}
 	rp.mu.Unlock()
 
@@ -101,7 +101,7 @@ func (rp *ReversePool) Run(ctx context.Context) error {
 						continue
 					}
 					rp.mu.Lock()
-					rp.authenticated[agent.ID] = agent.Identity
+					rp.authenticated[agent.ID] = agent.Token
 					rp.mu.Unlock()
 
 				case models.EventDeleted:
@@ -117,7 +117,7 @@ func (rp *ReversePool) Run(ctx context.Context) error {
 						continue
 					}
 					rp.mu.Lock()
-					rp.authenticated[conn.ID] = conn.Identity
+					rp.authenticated[conn.ID] = conn.Token
 					rp.mu.Unlock()
 				}
 			}

@@ -33,8 +33,8 @@ type Connection struct {
 	// Name is user facing name of the remote connection
 	Name string `json:"name" yaml:"name"`
 
-	// Identity is the identity of the remote connection to be used for authentication remote dialing
-	Identity string `json:"identity" yaml:"identity" gorm:"uniqueIndex"`
+	// Token is the identity of the remote connection to be used for authentication remote dialing
+	Token string `json:"token" yaml:"token"`
 
 	// Hostname is the hostname of the remote connection
 	Hostname string `json:"hostname" yaml:"hostname" gorm:"uniqueIndex"`
