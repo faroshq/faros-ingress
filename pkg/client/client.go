@@ -72,7 +72,7 @@ func (c *client) CreateConnection(ctx context.Context, conn api.Connection) (*ap
 
 func (c *client) UpdateConnection(ctx context.Context, conn api.Connection) (*api.Connection, error) {
 	var result api.Connection
-	err := c.post(ctx, conn, &result, "connections", conn.ID)
+	err := c.put(ctx, conn, &result, "connections", conn.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +112,7 @@ func (c *client) get(ctx context.Context, out interface{}, s ...string) error {
 }
 
 func (c *client) getB(ctx context.Context, s ...string) ([]byte, error) {
-	req, err := httputil.NewAgentRequest(ctx, http.MethodGet, getURL(c.url, s...), nil)
+	req, err := httputil.NewConnectionRequest(ctx, http.MethodGet, getURL(c.url, s...), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -152,7 +152,7 @@ func (c *client) putB(ctx context.Context, in interface{}, s ...string) ([]byte,
 	}
 	reader := bytes.NewReader(reqBytes)
 
-	req, err := httputil.NewAgentRequest(ctx, http.MethodPut, getURL(c.url, s...), reader)
+	req, err := httputil.NewConnectionRequest(ctx, http.MethodPut, getURL(c.url, s...), reader)
 	if err != nil {
 		return nil, err
 	}
@@ -194,7 +194,7 @@ func (c *client) post(ctx context.Context, in, out interface{}, s ...string) err
 func (c *client) postB(ctx context.Context, in interface{}, reqBytes []byte, s ...string) ([]byte, error) {
 	reader := bytes.NewReader(reqBytes)
 
-	req, err := httputil.NewAgentRequest(ctx, http.MethodPost, getURL(c.url, s...), reader)
+	req, err := httputil.NewConnectionRequest(ctx, http.MethodPost, getURL(c.url, s...), reader)
 	if err != nil {
 		return nil, err
 	}
@@ -206,6 +206,7 @@ func (c *client) postB(ctx context.Context, in interface{}, reqBytes []byte, s .
 	if err != nil {
 		return nil, err
 	}
+
 	defer resp.Body.Close()
 
 	bytes, err := ioutil.ReadAll(resp.Body)
@@ -228,7 +229,7 @@ func (c *client) delete(ctx context.Context, in, out interface{}, s ...string) e
 }
 
 func (c *client) deleteB(ctx context.Context, in interface{}, s ...string) ([]byte, error) {
-	req, err := httputil.NewAgentRequest(ctx, http.MethodDelete, getURL(c.url, s...), nil)
+	req, err := httputil.NewConnectionRequest(ctx, http.MethodDelete, getURL(c.url, s...), nil)
 	if err != nil {
 		return nil, err
 	}
