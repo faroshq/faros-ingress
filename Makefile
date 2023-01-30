@@ -8,6 +8,9 @@ lint:
 	go run ./hack/validate-imports cmd hack pkg
 	staticcheck ./...
 
+generate:
+	go generate ./...
+
 setup-kind:
 	./hack/dev/setup-kind.sh
 

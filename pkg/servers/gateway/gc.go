@@ -5,8 +5,10 @@ import (
 	"time"
 )
 
+var gcInterval = time.Minute
+
 func (s *Service) runGC(ctx context.Context) error {
-	ticker := time.NewTicker(time.Minute)
+	ticker := time.NewTicker(gcInterval)
 	defer ticker.Stop()
 
 	for {
@@ -17,8 +19,7 @@ func (s *Service) runGC(ctx context.Context) error {
 		}
 
 		for _, conn := range conns {
-			// now + ttl < last used at
-			if s.clock.Now().Add(conn.TTL).Before(conn.LastUsedAt) {
+			if conn.LastUsedAt.Add(conn.TTL).Before(s.clock.Now()) {
 				err := s.store.DeleteConnection(ctx, conn)
 				if err != nil {
 					return err
