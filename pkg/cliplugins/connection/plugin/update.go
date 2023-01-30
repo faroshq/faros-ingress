@@ -39,8 +39,8 @@ func NewUpdateOptions(streams genericclioptions.IOStreams) *UpdateOptions {
 func (o *UpdateOptions) BindFlags(cmd *cobra.Command) {
 	o.Options.BindFlags(cmd)
 
-	cmd.Flags().StringVarP(&o.Username, "username", "u", "", "Username for the connection")
-	cmd.Flags().StringVarP(&o.Password, "password", "p", "", "Password for the connection")
+	cmd.Flags().StringVarP(&o.Username, "username", "", "", "Username for the connection")
+	cmd.Flags().StringVarP(&o.Password, "password", "", "", "Password for the connection")
 	cmd.Flags().StringVarP(&o.Hostname, "hostname", "", "", "Hostname of the connection")
 	cmd.Flags().BoolVarP(&o.Secure, "secure", "", false, "Secure the connection")
 }
@@ -88,6 +88,7 @@ func (o *UpdateOptions) Run(ctx context.Context) error {
 
 	for _, conn := range list.Items {
 		if conn.Name == o.Name {
+			conn.Name = o.Name
 			conn.Username = o.Username
 			conn.Password = o.Password
 			conn.Hostname = o.Hostname
@@ -98,7 +99,7 @@ func (o *UpdateOptions) Run(ctx context.Context) error {
 				return err
 			}
 
-			fmt.Printf("Connection %s Updated", conn.Name)
+			fmt.Printf("Connection '%s' updated", conn.Name)
 			fmt.Printf("\n")
 			if o.Hostname != "" {
 				fmt.Printf("Hostname: '%s'", conn.Hostname)

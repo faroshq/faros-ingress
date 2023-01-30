@@ -68,7 +68,7 @@ func (c *client) get(ctx context.Context, out interface{}, s ...string) error {
 }
 
 func (c *client) getB(ctx context.Context, s ...string) ([]byte, error) {
-	req, err := httputil.NewAgentRequest(ctx, http.MethodGet, getURL(c.url, s...), nil)
+	req, err := httputil.NewConnectionRequest(ctx, http.MethodGet, getURL(c.url, s...), nil)
 	if err != nil {
 		return nil, err
 	}

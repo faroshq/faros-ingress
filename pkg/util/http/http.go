@@ -71,7 +71,7 @@ func NewCliRequest(ctx context.Context, method, url string, body io.Reader) (*ht
 	return req, nil
 }
 
-func NewAgentRequest(ctx context.Context, method, url string, body io.Reader) (*Request, error) {
+func NewConnectionRequest(ctx context.Context, method, url string, body io.Reader) (*Request, error) {
 	req, err := http.NewRequestWithContext(ctx, method, url, body)
 	if err != nil {
 		return nil, err
@@ -110,7 +110,7 @@ func (c *Client) Do(req *Request) (*Response, error) {
 }
 
 func (c *Client) Get(ctx context.Context, url string) (*Response, error) {
-	req, err := NewAgentRequest(ctx, "GET", url, nil)
+	req, err := NewConnectionRequest(ctx, "GET", url, nil)
 	if err != nil {
 		return nil, err
 	}

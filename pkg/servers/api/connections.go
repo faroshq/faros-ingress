@@ -224,19 +224,18 @@ func (s *Service) updateConnection(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// name is unique per user
-	Connection := &models.Connection{
+	connection := &models.Connection{
 		Name:   request.Name,
 		UserID: user.ID,
 	}
 
-	if connectionID != Connection.ID {
-		utilhttp.WriteErrorBadRequestWithReason(w, fmt.Errorf("connection name is required"), fmt.Errorf("connection name is required"))
+	current, err := s.store.GetConnection(ctx, *connection)
+	if err != nil {
+		utilhttp.WriteErrorInternalServerError(w, err)
 		return
 	}
-
-	current, err := s.store.GetConnection(ctx, *Connection)
-	if err == nil {
-		utilhttp.WriteErrorConflictWithReason(w, fmt.Errorf("connection already exists"), nil)
+	if connectionID != current.ID {
+		utilhttp.WriteErrorBadRequestWithReason(w, fmt.Errorf("connection name is required"), fmt.Errorf("connection name is required"))
 		return
 	}
 

@@ -120,7 +120,7 @@ func New(streams genericclioptions.IOStreams) (*cobra.Command, error) {
 	deleteCmd := &cobra.Command{
 		Use:          "delete",
 		Short:        "Delete a connection",
-		Example:      fmt.Sprintf(connectionExample, "kubectl faros connection"),
+		Example:      fmt.Sprintf(connectionExample, "kubectl faros connection delete"),
 		SilenceUsage: true,
 		RunE: func(c *cobra.Command, args []string) error {
 			if len(args) == 0 {
@@ -141,6 +141,33 @@ func New(streams genericclioptions.IOStreams) (*cobra.Command, error) {
 
 	deleteOptions.BindFlags(deleteCmd)
 	cmd.AddCommand(deleteCmd)
+
+	// Update command
+	updateOptions := plugin.NewUpdateOptions(streams)
+	updateCmd := &cobra.Command{
+		Use:          "update",
+		Short:        "Update a connection",
+		Example:      fmt.Sprintf(connectionExample, "kubectl faros connection update"),
+		SilenceUsage: true,
+		RunE: func(c *cobra.Command, args []string) error {
+			if len(args) == 0 {
+				return c.Help()
+			}
+
+			if err := updateOptions.Complete(args); err != nil {
+				return err
+			}
+
+			if err := updateOptions.Validate(); err != nil {
+				return err
+			}
+
+			return updateOptions.Run(c.Context())
+		},
+	}
+
+	updateOptions.BindFlags(updateCmd)
+	cmd.AddCommand(updateCmd)
 
 	// Connect command
 	connectOptions := plugin.NewConnectOptions(streams)
