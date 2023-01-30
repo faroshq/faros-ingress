@@ -13,17 +13,19 @@ import (
 	"github.com/faroshq/faros-ingress/pkg/cliplugins/base"
 )
 
-// UpdateOptions contains options for configuring a Agent and its corresponding process.
+// UpdateOptions contains options for configuring a Connection and its corresponding process.
 type UpdateOptions struct {
 	*base.Options
-	// Name is the name of the Agent to be Updated.
+	// Name is the name of the Connection to be Updated.
 	Name string
-	// Username is the username of the Agent to be Updated.
+	// Username is the username of the Connection to be Updated.
 	Username string
-	// Password is the password of the Agent to be Updated.
+	// Password is the password of the Connection to be Updated.
 	Password string
-	// Hostname is the hostname of the Agent to be Updated.
+	// Hostname is the hostname of the Connection to be Updated.
 	Hostname string
+	// Secure is the secure of the Connection to be Updated.
+	Secure bool
 }
 
 // NewUpdateOptions returns a new UpdateOptions.
@@ -37,9 +39,10 @@ func NewUpdateOptions(streams genericclioptions.IOStreams) *UpdateOptions {
 func (o *UpdateOptions) BindFlags(cmd *cobra.Command) {
 	o.Options.BindFlags(cmd)
 
-	cmd.Flags().StringVarP(&o.Username, "username", "u", "", "Username for agent")
-	cmd.Flags().StringVarP(&o.Password, "password", "p", "", "Password for agent")
-	cmd.Flags().StringVarP(&o.Hostname, "hostname", "", "", "Hostname for agent")
+	cmd.Flags().StringVarP(&o.Username, "username", "u", "", "Username for the connection")
+	cmd.Flags().StringVarP(&o.Password, "password", "p", "", "Password for the connection")
+	cmd.Flags().StringVarP(&o.Hostname, "hostname", "", "", "Hostname of the connection")
+	cmd.Flags().BoolVarP(&o.Secure, "secure", "", false, "Secure the connection")
 }
 
 // Complete ensures all dynamically populated fields are initialized.
@@ -88,6 +91,7 @@ func (o *UpdateOptions) Run(ctx context.Context) error {
 			conn.Username = o.Username
 			conn.Password = o.Password
 			conn.Hostname = o.Hostname
+			conn.Secure = o.Secure
 
 			_, err := c.UpdateConnection(ctx, conn)
 			if err != nil {

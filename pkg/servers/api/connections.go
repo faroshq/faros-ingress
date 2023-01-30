@@ -252,6 +252,9 @@ func (s *Service) updateConnection(w http.ResponseWriter, r *http.Request) {
 	if request.Hostname != "" {
 		current.Hostname = request.Hostname
 	}
+	if request.Secure != current.Secure {
+		current.Secure = request.Secure
+	}
 
 	if request.Username != "" && request.Password != "" {
 		hashedPassword, err = utilpassword.GeneratePasswordHash([]byte(username + ":" + password))
