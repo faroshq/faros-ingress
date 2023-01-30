@@ -18,7 +18,7 @@ func (s *Service) runGC(ctx context.Context) error {
 
 		for _, conn := range conns {
 			// now + ttl < last used at
-			if s.clock.Now().Add(conn.TTL).After(conn.LastUsedAt) {
+			if s.clock.Now().Add(conn.TTL).Before(conn.LastUsedAt) {
 				err := s.store.DeleteConnection(ctx, conn)
 				if err != nil {
 					return err
