@@ -7,6 +7,8 @@ import (
 	"github.com/faroshq/faros-ingress/pkg/models"
 )
 
+//go:generate mockgen -source $GOFILE -destination store_mocks.go -package $GOPACKAGE
+
 type Store interface {
 	GetConnection(context.Context, models.Connection) (*models.Connection, error)
 	ListConnections(context.Context, models.Connection) ([]models.Connection, error)
@@ -14,6 +16,7 @@ type Store interface {
 	DeleteConnection(context.Context, models.Connection) error
 	CreateConnection(context.Context, models.Connection) (*models.Connection, error)
 	UpdateConnection(context.Context, models.Connection) (*models.Connection, error)
+	UpdateConnectionLastSeen(context.Context, models.Connection, models.ConnectionState) error
 
 	GetUser(context.Context, models.User) (*models.User, error)
 	ListUsers(context.Context, models.User) ([]models.User, error)

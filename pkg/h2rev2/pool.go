@@ -269,11 +269,14 @@ func (rp *ReversePool) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			rp.DeleteDialer(dialerUniq)
 			d = rp.CreateDialer(dialerUniq, conn)
 			// start control loop
+			go rp.startConnectionHealthPing(r.Context(), dialerUniq)
+
 			<-conn.Done()
-			klog.V(5).Infof("stoped dialer %s control connection ", dialerUniq)
+			klog.V(5).Infof("stopped dialer %s control connection ", dialerUniq)
 			return
 
 		}
+
 		// create a reverse connection
 		klog.V(5).Infof("created reverse connection to %s %s id %s", r.RequestURI, r.RemoteAddr, dialerUniq)
 		conn := newConn(r.Body, flushWriter{w})
@@ -283,10 +286,40 @@ func (rp *ReversePool) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Reverse dialer closed", http.StatusInternalServerError)
 			return
 		}
+
 		// keep the handler alive until the connection is closed
 		<-conn.Done()
+
 		klog.V(4).Infof("Connection from %s done", r.RemoteAddr)
 	}
+}
+
+var healthPingInterval = time.Minute
+
+// startConnectionHealthPing updates the last seen time of the connection
+// TODO: move to more scalable solution
+func (rp *ReversePool) startConnectionHealthPing(ctx context.Context, id string) {
+	err := rp.store.UpdateConnectionLastSeen(ctx, models.Connection{Token: id}, models.StateConnected)
+	if err != nil {
+		klog.Errorf("failed to update connection last seen: %v", err)
+	}
+
+	for {
+		select {
+		case <-time.After(healthPingInterval):
+			err := rp.store.UpdateConnectionLastSeen(ctx, models.Connection{Token: id}, models.StateConnected)
+			if err != nil {
+				klog.Errorf("failed to update connection last seen: %v", err)
+			}
+		case <-ctx.Done():
+			err := rp.store.UpdateConnectionLastSeen(context.Background(), models.Connection{Token: id}, models.StateDisconnected)
+			if err != nil {
+				klog.Errorf("failed to update connection last seen: %v", err)
+			}
+			return
+		}
+	}
+
 }
 
 // isAuthenticated checks if the request is authenticated

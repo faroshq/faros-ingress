@@ -71,6 +71,26 @@ func (s *Store) UpdateConnection(ctx context.Context, p models.Connection) (*mod
 	return s.GetConnection(ctx, models.Connection{ID: p.ID})
 }
 
+// UpdateConnection updates remote cluster based on remote cluster ID
+func (s *Store) UpdateConnectionLastSeen(ctx context.Context, p models.Connection, state models.ConnectionState) error {
+	switch {
+	case p.Token != "":
+		// OK, getting by token only
+	default:
+		return store.ErrFailToQuery
+	}
+
+	return s.db.Transaction(func(tx *gorm.DB) error {
+		err := tx.WithContext(ctx).Model(&models.Connection{}).Where(&p).
+			Update("last_used_at", s.clock.Now()).Error
+		if err != nil {
+			return err
+		}
+		return tx.WithContext(ctx).Model(&models.Connection{}).Where(&p).
+			Update("state", state).Error
+	})
+}
+
 // DeleteWorkspace deletes remote clusters based on cluster ID
 func (s *Store) DeleteConnection(ctx context.Context, p models.Connection) error {
 	switch {

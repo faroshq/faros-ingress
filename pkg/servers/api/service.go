@@ -15,6 +15,7 @@ import (
 	"github.com/libdns/cloudflare"
 	"go.uber.org/zap"
 	"k8s.io/klog/v2"
+	"k8s.io/utils/clock"
 
 	"github.com/faroshq/faros-ingress/pkg/config"
 	"github.com/faroshq/faros-ingress/pkg/recover"
@@ -36,6 +37,7 @@ type Service struct {
 	router        *mux.Router
 	health        *health.Health
 	store         store.Store
+	clock         clock.Clock
 }
 
 func New(ctx context.Context, config *config.Config) (*Service, error) {
@@ -58,6 +60,7 @@ func New(ctx context.Context, config *config.Config) (*Service, error) {
 		health:        health.New(),
 		store:         store,
 		authenticator: authenticator,
+		clock:         clock.RealClock{},
 	}
 
 	s.router = setupRouter()
