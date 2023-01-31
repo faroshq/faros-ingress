@@ -11,24 +11,23 @@ type User struct {
 	Email string `json:"email" yaml:"email" gorm:"uniqueIndex"`
 }
 
-// Workspace is a model for the Workspace database model storing the workspace information.
-type Workspace struct {
-	ID        string    `json:"id" yaml:"id" gorm:"primaryKey,uniqueIndex"`
-	CreatedAt time.Time `json:"createdAt" yaml:"createdAt" grom:"index"`
-	UpdatedAt time.Time `json:"updatedAt" yaml:"updatedAt"`
-	UserID    string    `json:"userId" yaml:"userId" gorm:"index"`
-	// Name is user facing name of the workspace
-	Name string `json:"name" yaml:"name" gorm:"index"`
-}
+type ConnectionState string
+
+var (
+	StateConnected    ConnectionState = "connected"
+	StateDisconnected ConnectionState = "disconnected"
+)
 
 // Connection is a model for the connection database model storing the remote connection information.
 type Connection struct {
-	ID         string        `json:"id" yaml:"id" gorm:"primaryKey,uniqueIndex"`
-	CreatedAt  time.Time     `json:"createdAt" yaml:"createdAt" grom:"index"`
-	UpdatedAt  time.Time     `json:"updatedAt" yaml:"updatedAt"`
-	LastUsedAt time.Time     `json:"lastUsedAt" yaml:"lastUsedAt" grom:"index"`
-	TTL        time.Duration `json:"ttl,omitempty"`
+	ID         string          `json:"id" yaml:"id" gorm:"primaryKey,uniqueIndex"`
+	CreatedAt  time.Time       `json:"createdAt" yaml:"createdAt" grom:"index"`
+	UpdatedAt  time.Time       `json:"updatedAt" yaml:"updatedAt"`
+	LastUsedAt time.Time       `json:"lastUsedAt" yaml:"lastUsedAt" grom:"index"`
+	TTL        time.Duration   `json:"ttl,omitempty" yaml:"ttl,omitempty"`
+	State      ConnectionState `json:"state,omitempty" yaml:"state,omitempty"`
 
+	// UserID is the ID of the user that owns the remote connection
 	UserID string `json:"userId" yaml:"userId" gorm:"index"`
 	// Name is user facing name of the remote connection
 	Name string `json:"name" yaml:"name"`

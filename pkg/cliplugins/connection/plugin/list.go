@@ -74,7 +74,7 @@ func (o *ListOptions) Run(ctx context.Context) error {
 
 	if o.Output == utilprint.FormatTable {
 		table := utilprint.DefaultTable()
-		table.SetHeader([]string{"NAME", "HOSTNAME", "LAST USED", "TTL", "SECURE"})
+		table.SetHeader([]string{"NAME", "HOSTNAME", "LAST USED", "TTL", "STATE", "SECURE"})
 		for _, conn := range list.Items {
 			{
 				table.Append([]string{
@@ -82,6 +82,7 @@ func (o *ListOptions) Run(ctx context.Context) error {
 					conn.Hostname,
 					utiltime.Since(conn.LastUsed).String() + " ago",
 					conn.TTL.String(),
+					string(conn.State),
 					strconv.FormatBool(conn.Secure),
 				})
 			}

@@ -78,6 +78,7 @@ func (s *Service) listConnections(w http.ResponseWriter, r *http.Request) {
 			TTL:      connectionRef.TTL,
 			Hostname: connectionRef.Hostname,
 			Secure:   connectionRef.Secure,
+			State:    api.ConnectionState(connectionRef.State),
 		})
 	}
 
@@ -121,11 +122,13 @@ func (s *Service) createConnection(w http.ResponseWriter, r *http.Request) {
 	}
 
 	connection := models.Connection{
-		Token:  uuid.New().String(),
-		UserID: user.ID,
-		Name:   request.Name,
-		TTL:    request.TTL,
-		Secure: request.Secure,
+		Token:      uuid.New().String(),
+		UserID:     user.ID,
+		Name:       request.Name,
+		TTL:        request.TTL,
+		Secure:     request.Secure,
+		LastUsedAt: s.clock.Now(),
+		State:      models.StateDisconnected,
 	}
 
 	// clean up hostname
@@ -204,6 +207,7 @@ func (s *Service) createConnection(w http.ResponseWriter, r *http.Request) {
 		Username: username,
 		Password: password,
 		Secure:   connectionCreated.Secure,
+		State:    api.ConnectionState(connectionCreated.State),
 	})
 }
 
@@ -278,6 +282,7 @@ func (s *Service) updateConnection(w http.ResponseWriter, r *http.Request) {
 		Username: request.Username,
 		Password: request.Password,
 		Secure:   connectionUpdated.Secure,
+		State:    api.ConnectionState(connectionUpdated.State),
 	})
 }
 

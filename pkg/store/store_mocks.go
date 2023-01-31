@@ -240,6 +240,20 @@ func (mr *MockStoreMockRecorder) UpdateConnection(arg0, arg1 interface{}) *gomoc
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateConnection", reflect.TypeOf((*MockStore)(nil).UpdateConnection), arg0, arg1)
 }
 
+// UpdateConnectionLastSeen mocks base method.
+func (m *MockStore) UpdateConnectionLastSeen(arg0 context.Context, arg1 models.Connection, arg2 models.ConnectionState) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateConnectionLastSeen", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateConnectionLastSeen indicates an expected call of UpdateConnectionLastSeen.
+func (mr *MockStoreMockRecorder) UpdateConnectionLastSeen(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateConnectionLastSeen", reflect.TypeOf((*MockStore)(nil).UpdateConnectionLastSeen), arg0, arg1, arg2)
+}
+
 // UpdateUser mocks base method.
 func (m *MockStore) UpdateUser(arg0 context.Context, arg1 models.User) (*models.User, error) {
 	m.ctrl.T.Helper()

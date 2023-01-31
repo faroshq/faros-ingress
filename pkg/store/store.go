@@ -16,6 +16,7 @@ type Store interface {
 	DeleteConnection(context.Context, models.Connection) error
 	CreateConnection(context.Context, models.Connection) (*models.Connection, error)
 	UpdateConnection(context.Context, models.Connection) (*models.Connection, error)
+	UpdateConnectionLastSeen(context.Context, models.Connection, models.ConnectionState) error
 
 	GetUser(context.Context, models.User) (*models.User, error)
 	ListUsers(context.Context, models.User) ([]models.User, error)

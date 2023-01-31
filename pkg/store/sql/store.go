@@ -9,6 +9,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	klog "k8s.io/klog/v2"
+	"k8s.io/utils/clock"
 
 	"github.com/faroshq/faros-ingress/pkg/config"
 	"github.com/faroshq/faros-ingress/pkg/store"
@@ -19,6 +20,7 @@ var _ store.Store = &Store{}
 type Store struct {
 	db      *gorm.DB
 	pgxPool *pgxpool.Pool // used for pubsub if we need one
+	clock   clock.Clock
 }
 
 func NewStore(ctx context.Context, c *config.Database) (*Store, error) {
@@ -45,6 +47,7 @@ func NewStore(ctx context.Context, c *config.Database) (*Store, error) {
 	s := &Store{
 		db:      db,
 		pgxPool: pgxPool,
+		clock:   clock.RealClock{},
 	}
 
 	err = s.migrate(ctx, c)
