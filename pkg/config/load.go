@@ -112,7 +112,7 @@ func LoadConnector() (*ConnectorConfig, error) {
 	if c.TLSServerCertFile != "" && c.TLSServerKeyFile != "" {
 		c.TLSServerSkipVerify = false
 	} else {
-		klog.V(2).Info("No server certificates provided, generating temporary ones")
+		klog.V(4).Info("No server certificates provided, generating temporary ones")
 		name := "server"
 		c.TLSServerSkipVerify = true
 		c.TLSServerCertFile = fmt.Sprintf("%s/%s.crt", c.StateDir, name)
@@ -132,7 +132,7 @@ func LoadConnector() (*ConnectorConfig, error) {
 	if c.TLSClientCertFile != "" && c.TLSClientKeyFile != "" {
 		c.TLSClientSkipVerify = false
 	} else {
-		klog.V(2).Info("No client certificates provided, generating temporary ones")
+		klog.V(4).Info("No client certificates provided, generating temporary ones")
 		name := "client"
 		c.TLSClientSkipVerify = true
 		c.TLSClientCertFile = fmt.Sprintf("%s/%s.crt", c.StateDir, name)

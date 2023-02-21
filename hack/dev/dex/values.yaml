@@ -28,7 +28,7 @@ config:
     - http://localhost:8000
     - https://localhost:6443/oidc/callback
     - https://faros.dev.faros.sh/api/v1alpha1/oidc/callback
-    - https://api.faros.sh/api/v1alpha1/oidc/callback
+    - https://ingress.faros.sh/api/v1alpha1/oidc/callback
     name: 'Faros App'
     secret: ZXhhbXBsZS1hcHAtc2VjcmV0
 

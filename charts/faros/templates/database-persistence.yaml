@@ -3,8 +3,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ .Values.database.name }}-db-storage
-  labels:
-    app: postgres
 spec:
   accessModes:
     - ReadWriteOnce
