@@ -31,7 +31,7 @@ func NewOptions(streams genericclioptions.IOStreams) *Options {
 func (o *Options) BindFlags(cmd *cobra.Command) {
 	o.Options.BindFlags(cmd)
 	cmd.Flags().StringVarP(&o.Output, "output", "o", o.Output, "output format [table,json,yaml]")
-	cmd.Flags().StringVarP(&o.APIEndpoint, "endpoint", "e", "https://api.faros.sh", "Faros API endpoint")
+	cmd.Flags().StringVarP(&o.APIEndpoint, "endpoint", "e", "https://ingress.faros.sh", "Faros API endpoint")
 }
 
 // Complete initializes ClientConfig based on Kubeconfig and KubectlOverrides.

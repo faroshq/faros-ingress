@@ -35,7 +35,7 @@ type Config struct {
 	TLSCertFile string `envconfig:"FAROS_TLS_CERT_FILE" default:""`
 
 	// AutoCertAPIDomains is the list of domains to use for auto-cert.
-	AutoCertAPIDomains []string `envconfig:"FAROS_API_AUTO_DNS_DOMAIN" required:"true" default:"api.faros.sh"`
+	AutoCertAPIDomains []string `envconfig:"FAROS_API_AUTO_DNS_DOMAIN" required:"true" default:"ingress.faros.sh"`
 	// AutoCertGatewayDomains is the list of domains to use for auto-cert.
 	AutoCertGatewayDomains []string `envconfig:"FAROS_GATEWAY_AUTO_DNS_DOMAIN" required:"true" default:"gateway.faros.sh"`
 
@@ -85,7 +85,7 @@ type Database struct {
 
 type ConnectorConfig struct {
 	// ControllerURL is the URL that the controller is externally reachable at.
-	ControllerURL string `envconfig:"FAROS_EXTERNAL_URL" required:"true" default:"https://api.faros.sh"`
+	ControllerURL string `envconfig:"FAROS_EXTERNAL_URL" required:"true" default:"https://ingress.faros.sh"`
 	// DownstreamURL is downstream URL for the connector to connect to.
 	DownstreamURL string `envconfig:"FAROS_DOWNSTREAM_URL" required:"true" default:"http://localhost:8080"`
 	// Token is the token used to authenticate with the API server.

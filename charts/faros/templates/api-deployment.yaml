@@ -44,7 +44,7 @@ spec:
           - name: FAROS_OIDC_ISSUER_URL
             value: {{ .Values.oidc.issuer }}
           - name: FAROS_API_AUTO_DNS_DOMAIN
-            value: api.faros.sh
+            value: ingress.faros.sh
           - name: FAROS_AUTO_CERT_LE_EMAIL
             value: {{ .Values.cloudflare.email }}
           - name: FAROS_AUTO_CERT_CLOUDFLARE_KEY
@@ -54,7 +54,7 @@ spec:
           - name: FAROS_AUTO_CERT_USE_STAGING
             value: {{ .Values.certificates.useStaging | quote }}
           - name: FAROS_API_EXTERNAL_URL
-            value: https://api.faros.sh
+            value: https://ingress.faros.sh
           - name: FAROS_OIDC_CLIENT_SECRET
             value: {{ .Values.oidc.clientSecret | quote }}
       volumes:

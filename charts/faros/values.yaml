@@ -44,11 +44,11 @@ ingress:
     acme.cert-manager.io/http01-edit-in-place: "true"
     cert-manager.io/cluster-issuer: letsencrypt-staging
   hosts:
-    - host: api.faros.sh
+    - host: ingress.faros.sh
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
   - secretName: faros-cert
     hosts:
-      - api.faros.sh
+      - ingress.faros.sh
