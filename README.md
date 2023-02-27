@@ -37,8 +37,8 @@ rm kubectl-faros-ingress-v*.tar.gz
 Usage is simple. Login to your account and create a new tunnel.
 
 ```bash
-faros login
-faros expose http://localhost:8080
+faros-ingress login
+faros-ingress expose http://localhost:8080
 ```
 
 More advanced usage allows one to reserve a custom domain name, specify a port
