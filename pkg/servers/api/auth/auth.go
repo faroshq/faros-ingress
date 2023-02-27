@@ -61,7 +61,6 @@ func NewAuthenticator(cfg *config.Config, store store.Store, callbackURLPrefix s
 	ctx := context.Background()
 
 	hostingCoreClient, err := kubernetes.NewForConfig(cfg.ClusterRestConfig)
-
 	if err != nil {
 		return nil, err
 	}
