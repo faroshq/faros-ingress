@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	flags := pflag.NewFlagSet("kubectl-faros", pflag.ExitOnError)
+	flags := pflag.NewFlagSet("kubectl-faros-ingress", pflag.ExitOnError)
 	pflag.CommandLine = flags
 
 	farosCmd, err := cmd.New(genericclioptions.IOStreams{In: os.Stdin, Out: os.Stdout, ErrOut: os.Stderr})

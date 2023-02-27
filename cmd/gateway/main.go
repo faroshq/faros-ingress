@@ -15,7 +15,6 @@ func main() {
 	klog.InitFlags(flag.CommandLine)
 
 	flag.Parse()
-	flag.Lookup("v").Value.Set("6")
 
 	ctx := context.Background()
 	ctx = klog.NewContext(ctx, klog.NewKlogr())
