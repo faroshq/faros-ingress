@@ -21,6 +21,7 @@ import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
+	"k8s.io/klog"
 
 	"github.com/faroshq/faros-ingress/pkg/api"
 	"github.com/faroshq/faros-ingress/pkg/config"
@@ -70,7 +71,7 @@ func NewAuthenticator(cfg *config.Config, store store.Store, callbackURLPrefix s
 		return nil, err
 	}
 
-	if secret != nil {
+	if secret != nil && len(secret.Data) > 0 {
 		crt, ok := secret.Data["tls.crt"]
 		if !ok {
 			return nil, errors.New("oidc tls.crt not found in secret")
@@ -84,6 +85,8 @@ func NewAuthenticator(cfg *config.Config, store store.Store, callbackURLPrefix s
 			return nil, err
 		}
 		ctx = oidc.ClientContext(ctx, client)
+	} else {
+		klog.Infof("Using system CA for OIDC issuer %s", cfg.OIDC.OIDCIssuerURL)
 	}
 
 	redirectURL := cfg.ExternalAPIURL + callbackURLPrefix
