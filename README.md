@@ -1,7 +1,7 @@
 # Faros Ingress
 
 Faros Ingress is a minimal universal ingress controller for EVERYTHING
-Using `faros ingress` you can expose any service on any port to the internet without any configuration.
+Using `faros-ingress` you can expose any service on any port to the internet without any configuration.
 
 ![Faros expose](docs/img/faros.gif)
 
